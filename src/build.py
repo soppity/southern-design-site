@@ -156,11 +156,14 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
     open(os.path.join(OUT, path, "index.html"), "w").write(doc)
     PAGES.append(dict(url="/" + path, kind=kind, query=query, title=t, description=desc))
 
+LOGO_ALT = {s: "Pentair logo, covering Aurora, Myers, Fairbanks Nijhuis and Aplex" for s in ("aplex", "aurora", "fairbanks", "myers")}
+LOGO_ALT["pmv"] = "Flowserve PMV Positioners logo"
+
 def brand_logo(slug, name, depth):
     """Logo plate for a manufacturer page, if a logo file exists in src/logos/."""
     for ext in ("svg", "png", "webp", "jpg"):
         if os.path.exists(f"logos/{slug}.{ext}"):
-            return f'<div class="brand-plate"><img src="{pre(depth)}assets/brands/{slug}.{ext}" alt="{esc(name)} logo"></div>'
+            return f'<div class="brand-plate"><img src="{pre(depth)}assets/brands/{slug}.{ext}" alt="{esc(LOGO_ALT.get(slug, name + " logo"))}"></div>'
     return ""
 
 def inner(path, crumbs, h1, lede, main_html, aside_html, extra_head="", plate=""):

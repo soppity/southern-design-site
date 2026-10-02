@@ -20,6 +20,8 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 | Manufacturers and the states each is supplied in | `src/brands.py` |
 | Problem guides | `src/guides.py` |
 | Service and industry pages | `src/content2.py` |
+| Header photos on inner pages | `src/photos.py` |
+| Manufacturer logos (one file per manufacturer, named by its page slug) | `src/logos/` |
 | Home page layout and base styles | `src/home-template.html` |
 | Inner-page styles | `src/extra.css` |
 | Page templates, titles, structured data | `src/build.py` |
@@ -56,4 +58,5 @@ Publish the `site/` folder. `_redirects` and `_headers` are in Netlify / Cloudfl
 - A check of the Virginia and Carolinas line list against their own line sheet.
 - Real case studies and the people for the About page (placeholders are marked).
 - Their own photos. The current ones are free-licence stock from Unsplash, loaded by link.
+- Manufacturer logos checked against each manufacturer's brand guidelines. The current files were taken from Southern Design's own 2024 line sheets. Flex-A-Seal, MRI and Lotus have no logo on those sheets, so their pages have none.
 - A real enquiry form. The current one does not send anything.
