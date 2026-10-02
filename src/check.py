@@ -1,5 +1,5 @@
 import os, re, json, sys
-root = os.path.abspath("../site"); bad = []; n = 0; h1bad = []; titles = {}
+root = os.path.abspath("../site"); bad = []; n = 0; h1bad = []; titles = {}; hidden = 0; pages = 0
 for dp, dn, fn in os.walk(root):
     for f in fn:
         if not f.endswith(".html"): continue
@@ -12,6 +12,10 @@ for dp, dn, fn in os.walk(root):
         if len(re.findall(r"<h1[ >]", s)) != 1: h1bad.append(os.path.relpath(p, root))
         t = re.search(r"<title>(.*?)</title>", s).group(1); titles.setdefault(t, []).append(os.path.relpath(p, root))
         assert "[[" not in s, p
+        pages += 1; hidden += '<meta name="robots" content="noindex' in s
+blocked = "Disallow: /" in open(os.path.join(root, "robots.txt")).read()
+assert hidden in (0, pages) and blocked == (hidden == pages), "mixed preview/live build: rebuild"
+print("mode:", "PREVIEW, hidden from search engines" if blocked else "LIVE, open to search engines", f"({hidden}/{pages} pages noindex)")
 print("internal links checked:", n, "broken:", bad[:10])
 print("pages without exactly one h1:", h1bad)
 print("duplicate titles:", {k: v for k, v in titles.items() if len(v) > 1})

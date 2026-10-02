@@ -1,7 +1,12 @@
-import re, json, os, shutil, html, csv
+import re, json, os, shutil, html, csv, sys
 from brands import BRANDS, CATS, TERR, PUMP_TYPES
 from guides import GUIDES
 from content2 import SERVICES, INDUSTRIES
+
+# Preview is the default: every page tells search engines and AI crawlers to stay out.
+# Build with --live only when Southern Design has approved the site for launch.
+LIVE = "--live" in sys.argv
+ROBOTS_META = "" if LIVE else '\n<meta name="robots" content="noindex, nofollow">'
 
 SITE = "https://www.southerndesign.com/"
 OUT = "../site"
@@ -119,7 +124,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">{ROBOTS_META}
 <title>{esc(t)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canon}">
@@ -398,7 +403,10 @@ shutil.copy("site.js", OUT + "/assets/site.js")
 
 PAGES.sort(key=lambda p: (p["url"].count("/"), p["url"]))
 open(OUT + "/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{SITE}{p['url'][1:]}</loc><lastmod>{DATE}</lastmod></url>\n" for p in PAGES) + "</urlset>\n")
-open(OUT + "/robots.txt", "w").write(f"""# Southern Design: open to search engines and AI search crawlers
+if not LIVE:
+    open(OUT + "/robots.txt", "w").write("# Preview build: not for indexing. Rebuild with --live for launch.\nUser-agent: *\nDisallow: /\n")
+    open(OUT + "/_headers", "w").write("# Preview build. Format: Netlify / Cloudflare Pages.\n/*\n  X-Robots-Tag: noindex, nofollow\n")
+else: open(OUT + "/robots.txt", "w").write(f"""# Southern Design: open to search engines and AI search crawlers
 User-agent: *
 Allow: /
 
@@ -425,6 +433,7 @@ open(OUT + "/_redirects", "w").write("""# Old Wix URLs to new pages (301). Forma
 with open(OUT + "/seo-page-map.csv", "w", newline="") as f:
     w = csv.DictWriter(f, fieldnames=["url", "kind", "query", "title", "description"]); w.writeheader(); w.writerows(PAGES)
 from collections import Counter
+print("LIVE build: open to search engines" if LIVE else "PREVIEW build: hidden from search engines (use --live for launch)")
 print(len(PAGES), "pages", dict(Counter(p["kind"] for p in PAGES)))
 print("long titles:", [(len(p["title"]), p["url"]) for p in PAGES if len(p["title"]) > 65])
 print("long metas:", [(len(p["description"]), p["url"]) for p in PAGES if len(p["description"]) > 165])
