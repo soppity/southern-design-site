@@ -1,0 +1,6 @@
+# Old Wix URLs to new pages (301). Format: Netlify / Cloudflare Pages.
+/about-sdm              /about/                            301
+/product-solutions      /products/                         301
+/reliability-solutions  /services/reliability-management/  301
+/manufacturers          /manufacturers/                    301
+/contact                /contact/                          301

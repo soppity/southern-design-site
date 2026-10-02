@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Calculate Pump MTBF and Find Bad Actors | Southern Design</title>
+<meta name="description" content="Pump MTBF is pumps in service times months, divided by failures. A worked example, what counts as a failure, and how to find the few pumps eating the budget.">
+<link rel="canonical" href="https://www.southerndesign.com/problems/calculate-pump-mtbf/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Southern Design">
+<meta property="og:title" content="How to Calculate Pump MTBF and Find Bad Actors | Southern Design">
+<meta property="og:description" content="Pump MTBF is pumps in service times months, divided by failures. A worked example, what counts as a failure, and how to find the few pumps eating the budget.">
+<meta property="og:url" content="https://www.southerndesign.com/problems/calculate-pump-mtbf/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/site.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.southerndesign.com/#org", "name": "Southern Design and Mechanical, Inc.", "alternateName": ["Southern Design", "SD&M"], "url": "https://www.southerndesign.com/", "logo": "https://www.southerndesign.com/assets/logo.svg", "telephone": "+1-877-917-8677", "email": "info@southerndesign.com", "sameAs": ["https://www.linkedin.com/company/southern.design"], "areaServed": ["Arkansas", "Maryland", "District of Columbia", "Delaware", "Virginia", "North Carolina", "South Carolina"], "address": [{"@type": "PostalAddress", "streetAddress": "2710 North West Avenue", "addressLocality": "El Dorado", "addressRegion": "AR", "postalCode": "71730", "addressCountry": "US"}, {"@type": "PostalAddress", "streetAddress": "8229 Cloverleaf Drive, Suite 430", "addressLocality": "Millersville", "addressRegion": "MD", "postalCode": "21108", "addressCountry": "US"}]}, {"@type": "TechArticle", "headline": "How to calculate pump MTBF and find your bad actors", "description": "Pump MTBF is pumps in service times months, divided by failures. A worked example, what counts as a failure, and how to find the few pumps eating the budget.", "datePublished": "2026-10-01", "dateModified": "2026-10-01", "author": {"@id": "https://www.southerndesign.com/#org"}, "publisher": {"@id": "https://www.southerndesign.com/#org"}, "mainEntityOfPage": "https://www.southerndesign.com/problems/calculate-pump-mtbf/"}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a good MTBF for pumps?", "acceptedAnswer": {"@type": "Answer", "text": "It varies widely with the industry, the type of pump and how failure is defined, so comparisons between plants are unreliable. The useful comparison is your own number against last year's."}}, {"@type": "Question", "name": "How much history do I need?", "acceptedAnswer": {"@type": "Answer", "text": "At least 12 months to get a number, and two to three years to identify bad actors with confidence."}}, {"@type": "Question", "name": "What is the difference between MTBF and MTTR?", "acceptedAnswer": {"@type": "Answer", "text": "MTBF measures how often equipment fails. MTTR, mean time to repair, measures how long it takes to get it running again. Reliability work raises the first; maintenance planning lowers the second."}}]}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.southerndesign.com/"}, {"@type": "ListItem", "position": 2, "name": "Pump problems", "item": "https://www.southerndesign.com/problems/"}, {"@type": "ListItem", "position": 3, "name": "Calculating pump MTBF", "item": "https://www.southerndesign.com/problems/calculate-pump-mtbf/"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ribbon">Concept redesign prepared by Lucid. This is not the live Southern Design website.</div>
+<div class="utility"><div class="wrap">
+  <span>Pump down? Call <a href="tel:+18779178677"><strong>877-917-8677</strong></a></span>
+  <a class="portal" href="http://rms.mysoutherndesign.com/client">Customer portal sign in</a>
+</div></div>
+<header class="site-head"><div class="wrap">
+  <a class="brand" href="../../index.html" aria-label="Southern Design home">
+    <img class="brand-mark" src="../../assets/logo.svg" alt="" width="50" height="62">
+    <span class="brand-name"><b>SOUTHERN</b> DESIGN<span class="brand-sub">Redefining Reliability</span></span>
+  </a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav" aria-label="Main"><a href="../../products/index.html">Products</a><a href="../../services/index.html">Services</a><a href="../../problems/index.html" aria-current="page">Pump problems</a><a href="../../industries/index.html">Industries</a><a href="../../locations/index.html">Locations</a><a class="btn btn-signal" href="../../contact/index.html">Request a quote</a></nav>
+</div></header>
+<main id="main">
+<div class="page-head"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="../../index.html">Home</a> / <a href="../../problems/index.html">Pump problems</a> / <span>Calculating pump MTBF</span></nav>
+  <h1>How to calculate pump MTBF and find your bad actors</h1>
+  <p class="lede"></p>
+</div></div>
+<div class="wrap layout"><article class="prose"><div class="answer"><b>Short answer</b><p>Pump MTBF (mean time between failures) is the number of pumps in service multiplied by the time period, divided by the number of failures in that period. A plant with 400 pumps and 160 failures in 12 months has an MTBF of 30 months. The plant-wide number shows the trend. The per-pump numbers show which few machines, the bad actors, are consuming most of the repair budget.</p></div>
+<h2>Worked example</h2>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Input</th><th scope="col">Value</th></tr></thead><tbody><tr><td>Pumps in service</td><td>400</td></tr><tr><td>Period</td><td>12 months</td></tr><tr><td>Failures in the period</td><td>160</td></tr><tr><td>MTBF = (400 x 12) / 160</td><td>30 months</td></tr></tbody></table></div>
+<h2>Decide what counts as a failure</h2>
+<p>The number only means something if a failure is defined the same way every time. A workable definition: any unplanned event that needs the pump opened or removed, including a seal change. Planned preventive work does not count. Write the definition down and keep to it.</p>
+<h2>Calculate it per pump as well as for the plant</h2>
+<p>The plant-wide figure hides the detail. One pump that has failed five times in 18 months and one that has run for six years both disappear into the same average. Per-pump history is where the decisions are.</p>
+<h2>Find the bad actors</h2>
+<ol><li>List every pump with its failures over the last two to three years.</li><li>Add the cost of each failure: repair parts, labor and downtime.</li><li>Rank by total cost, then by number of failures.</li><li>The same few tags will sit at the top of both lists. Those are the bad actors.</li></ol>
+<p>In most plants a small share of the pumps accounts for a large share of the failures and the spend. That is good news: fixing a handful of machines moves the plant-wide number.</p>
+<h2>What to do with the list</h2>
+<p>Each bad actor gets a root cause analysis, not another repair. The causes repeat: <a href="../../problems/pump-running-off-curve/index.html">running off the curve</a>, <a href="../../problems/mechanical-seal-keeps-failing/index.html">seal environment</a>, <a href="../../problems/pump-bearing-failure/index.html">lubrication</a>, <a href="../../problems/pump-cavitation/index.html">suction conditions</a>. Fix the cause, then watch the pump's own MTBF to confirm it worked.</p>
+<h2>The data you need</h2>
+<ul><li>A complete, accurate equipment list.</li><li>Every repair with its date, what was found and what was replaced.</li><li>Parts and labor cost per repair.</li><li>An estimate of downtime cost per pump.</li></ul>
+<p>Most plants have this spread across work orders, purchase orders and people's memories. Southern Design's <a href="../../services/reliability-management/index.html">Reliability Management System</a> builds the database, reports MTBF and cost per machine, and tracks each root cause from failure to fix.</p>
+<h2>Frequently asked questions</h2>
+<h3>What is a good MTBF for pumps?</h3>
+<p>It varies widely with the industry, the type of pump and how failure is defined, so comparisons between plants are unreliable. The useful comparison is your own number against last year's.</p>
+<h3>How much history do I need?</h3>
+<p>At least 12 months to get a number, and two to three years to identify bad actors with confidence.</p>
+<h3>What is the difference between MTBF and MTTR?</h3>
+<p>MTBF measures how often equipment fails. MTTR, mean time to repair, measures how long it takes to get it running again. Reliability work raises the first; maintenance planning lowers the second.</p>
+<h2>Products and services that help</h2>
+<ul class="chips"><li><a href="../../services/reliability-management/index.html">Reliability management</a></li><li><a href="../../services/pump-repair/index.html">Pump repair</a></li><li><a href="../../manufacturers/mri/index.html">MRI condition monitoring</a></li></ul>
+<p class="meta-line">Written by the Southern Design reliability team. Last reviewed October 2026.</p></article><aside><div class="aside-card"><h2>Pump giving you trouble?</h2><p>Tell a reliability specialist what it is doing. We troubleshoot on site and find the cause.</p>
+<a class="phone" href="tel:+18779178677">877-917-8677</a>
+<a class="btn btn-signal" href="../../contact/index.html?need=troubleshoot">Book a troubleshooting visit</a></div><div class="aside-list"><h2>More pump problems</h2><ul><li><a href="../../problems/mechanical-seal-keeps-failing/index.html">Mechanical seal keeps failing</a></li><li><a href="../../problems/pump-cavitation/index.html">Pump cavitation</a></li><li><a href="../../problems/pump-running-off-curve/index.html">Pump running off its curve</a></li><li><a href="../../problems/pump-bearing-failure/index.html">Pump bearings failing early</a></li><li><a href="../../problems/water-hammer-pulsation/index.html">Water hammer and pulsation</a></li><li><a href="../../problems/mag-drive-pump-failure/index.html">Mag-drive pump failures</a></li><li><a href="../../problems/repair-or-replace-pump/index.html">Repair or replace a pump</a></li></ul></div></aside></div>
+</main>
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <img class="foot-mark" src="../../assets/logo.svg" alt="" width="44" height="54" loading="lazy">
+      <b>Southern Design and Mechanical, Inc.</b>
+      <p>Pumps, mechanical seals, valves and reliability services for industrial plants and water utilities.</p>
+      <ul><li><a href="tel:+18779178677">877-917-8677</a></li><li><a href="mailto:info@southerndesign.com">info@southerndesign.com</a></li></ul>
+    </div>
+    <div><b>Products</b><ul><li><a href="../../products/pumps/index.html">Pumps</a></li><li><a href="../../products/mechanical-seals/index.html">Mechanical seals</a></li><li><a href="../../products/valves/index.html">Valves and automation</a></li><li><a href="../../products/motors-drives/index.html">Motors and drives</a></li><li><a href="../../products/reliability-accessories/index.html">Reliability accessories</a></li><li><a href="../../manufacturers/index.html">All manufacturers</a></li></ul></div>
+    <div><b>Services</b><ul><li><a href="../../services/pump-repair/index.html">Pump repair</a></li><li><a href="../../services/mechanical-seal-repair/index.html">Mechanical seal repair</a></li><li><a href="../../services/field-service/index.html">Field service</a></li><li><a href="../../services/hydraulic-system-analysis/index.html">Hydraulic system analysis</a></li><li><a href="../../services/reliability-management/index.html">Reliability management</a></li><li><a href="../../services/lubrication-training-audits/index.html">Lubrication training and audits</a></li></ul></div>
+    <div><b>Pump problems</b><ul><li><a href="../../problems/mechanical-seal-keeps-failing/index.html">Mechanical seal keeps failing</a></li><li><a href="../../problems/pump-cavitation/index.html">Pump cavitation</a></li><li><a href="../../problems/pump-running-off-curve/index.html">Pump running off its curve</a></li><li><a href="../../problems/pump-bearing-failure/index.html">Pump bearings failing early</a></li><li><a href="../../problems/calculate-pump-mtbf/index.html">Calculating pump MTBF</a></li><li><a href="../../problems/water-hammer-pulsation/index.html">Water hammer and pulsation</a></li><li><a href="../../problems/index.html">All guides</a></li></ul></div>
+    <div><b>Company</b><ul><li><a href="../../about/index.html">About</a></li><li><a href="../../industries/index.html">Industries</a></li><li><a href="../../locations/arkansas/index.html">Arkansas</a></li><li><a href="../../locations/maryland-dc-delaware/index.html">Maryland, DC and Delaware</a></li><li><a href="../../locations/virginia-carolinas/index.html">Virginia and the Carolinas</a></li><li><a href="../../contact/index.html">Contact</a></li></ul></div>
+  </div>
+  <div class="foot-base">Concept redesign prepared by Lucid for discussion. Company details taken from the public Southern Design website. Photos are free-licence stock from Unsplash, standing in until Southern Design supplies its own.</div>
+</div></footer>
+<div class="actionbar"><a class="btn btn-ghost" href="tel:+18779178677">Call</a><a class="btn btn-signal" href="../../contact/index.html">Request a quote</a></div>
+<script src="../../assets/site.js" defer></script>
+</body>
+</html>
