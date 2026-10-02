@@ -2,6 +2,7 @@ import re, json, os, shutil, html, csv, sys
 from brands import BRANDS, CATS, TERR, PUMP_TYPES
 from guides import GUIDES
 from content2 import SERVICES, INDUSTRIES
+from photos import PHOTO, photo_url
 
 # Preview is the default: every page tells search engines and AI crawlers to stay out.
 # Build with --live only when Southern Design has approved the site for launch.
@@ -120,6 +121,9 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
     canon = SITE + path
     t = full_title(title)
     graph = {"@context": "https://schema.org", "@graph": schema}
+    og_image = ""
+    if path in PHOTO:
+        og_image = f'\n<meta property="og:image" content="{photo_url(PHOTO[path][0], 1200)}">\n<meta property="og:image:alt" content="{esc(PHOTO[path][1])}">'
     doc = f'''<!doctype html>
 <html lang="en-US">
 <head>
@@ -132,8 +136,8 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
 <meta property="og:site_name" content="Southern Design">
 <meta property="og:title" content="{esc(t)}">
 <meta property="og:description" content="{esc(desc)}">
-<meta property="og:url" content="{canon}">
-<meta name="twitter:card" content="summary">
+<meta property="og:url" content="{canon}">{og_image}
+<meta name="twitter:card" content="{"summary_large_image" if og_image else "summary"}">
 <link rel="icon" href="{pre(depth)}assets/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,15 +156,29 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
     open(os.path.join(OUT, path, "index.html"), "w").write(doc)
     PAGES.append(dict(url="/" + path, kind=kind, query=query, title=t, description=desc))
 
-def inner(path, crumbs, h1, lede, main_html, aside_html, extra_head=""):
+def brand_logo(slug, name, depth):
+    """Logo plate for a manufacturer page, if a logo file exists in src/logos/."""
+    for ext in ("svg", "png", "webp", "jpg"):
+        if os.path.exists(f"logos/{slug}.{ext}"):
+            return f'<div class="brand-plate"><img src="{pre(depth)}assets/brands/{slug}.{ext}" alt="{esc(name)} logo"></div>'
+    return ""
+
+def inner(path, crumbs, h1, lede, main_html, aside_html, extra_head="", plate=""):
     depth = path.count("/")
     trail = " / ".join(f'<a href="{href(depth, p)}">{n}</a>' for n, p in crumbs[:-1]) + (" / " if len(crumbs) > 1 else "") + f"<span>{crumbs[-1][0]}</span>"
     lay = f'<div class="wrap layout"><article class="prose">{main_html}</article><aside>{aside_html}</aside></div>' if aside_html else f'<div class="wrap page-body">{main_html}</div>'
+    cls, style = "page-head", ""
+    if path in PHOTO:
+        pid = PHOTO[path][0]
+        cls += " has-photo"
+        style = f' style="--photo: url(\'{photo_url(pid, 1800)}\'); --photo-sm: url(\'{photo_url(pid, 900)}\')"'
     return f'''<main id="main">
-<div class="page-head"><div class="wrap">
+<div class="{cls}"{style}><div class="wrap{" with-plate" if plate else ""}">
+  <div>
   <nav class="crumbs" aria-label="Breadcrumb">{trail}</nav>
   <h1>{h1}</h1>
   <p class="lede">{lede}</p>{extra_head}
+  </div>{plate}
 </div></div>
 {lay}
 </main>'''
@@ -243,7 +261,7 @@ for b in B.values():
     if len(title) > 62: title = f"{b['name']} {tn} | {short}"
     meta = f"{b['name']} {b['noun']} supplied and supported by Southern Design in {terr_h1(b['terr'])}. Request a quote or speak to a specialist."
     schema = [ORG, {"@type": "WebPage", "name": h1, "url": SITE + path, "about": {"@type": "Brand", "name": b["name"]}, "provider": ORG_REF}, crumbs_schema(crumbs)]
-    write(path, title, meta, inner(path, crumbs, h1, lede, body, aside), schema, "Manufacturer", f"{b['name']} {b['noun']} distributor {terr_abbr(b['terr'])}")
+    write(path, title, meta, inner(path, crumbs, h1, lede, body, aside, plate=brand_logo(b["slug"], b["name"], d)), schema, "Manufacturer", f"{b['name']} {b['noun']} distributor {terr_abbr(b['terr'])}")
 
 path = "manufacturers/"; crumbs = HOME_C + [("Products", "products/"), ("Manufacturers", path)]
 allb = sorted(B.values(), key=lambda x: x["name"].lower())
@@ -400,6 +418,8 @@ css += open("extra.css").read()
 open(OUT + "/assets/site.css", "w").write(css)
 shutil.copy("logo.svg", OUT + "/assets/logo.svg")
 shutil.copy("site.js", OUT + "/assets/site.js")
+if os.path.isdir("logos") and os.listdir("logos"):
+    shutil.copytree("logos", OUT + "/assets/brands")
 
 PAGES.sort(key=lambda p: (p["url"].count("/"), p["url"]))
 open(OUT + "/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{SITE}{p['url'][1:]}</loc><lastmod>{DATE}</lastmod></url>\n" for p in PAGES) + "</urlset>\n")
