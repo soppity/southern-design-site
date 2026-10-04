@@ -72,7 +72,7 @@ On 4 October 2026 the home page scored 99 (mobile) and 97 (desktop) for performa
 
 - The font is a cut-down copy of Open Sans served from the site (`src/fonts/`), not from Google Fonts. It covers English text and common punctuation; other characters fall back to the system font.
 - The stylesheet is written into every page, so there is no separate file to wait for.
-- Google's Analytics script loads just after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so nothing is lost except a visitor who leaves within about a second.
+- Google's Analytics script loads just after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so the only visits missed are ones that end within a second or two of arriving. The thank-you page loads the script at once, so a lead is never missed.
 - Header photos are requested straight from the HTML. On phones, the home page photo comes through the site's own address using a pass-through rule in `_redirects`, which only works on Netlify. On another host, replace `img/hero-m.webp` with a real file.
 - Fonts, the script and logos are cached for a long time (`_headers`).
 
