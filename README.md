@@ -65,12 +65,22 @@ Each event records where on the page it happened, and every page reports its typ
 
 The first place a visitor came from (source, medium, campaign, landing page) is stored in their browser and added to the enquiry form as hidden fields, so each lead can carry its source into the CRM.
 
+Already set up in the Analytics property:
+
+- `generate_lead` and `phone_call_click` are marked as key events, counted once per event, with no default money value.
+- Five custom dimensions, so leads and clicks can be broken down in reports: Link location, Enquiry need, Enquiry state, First source, First landing page.
+- Event data is kept for 14 months (the default is 2).
+- Optional data sharing with Google is off.
+
+The tag works on any address the site is served from, so it is already recording visits to the Netlify preview. Nothing needs changing when the real domain is pointed at the site. In reports, filter on the built-in Hostname dimension (or by date from launch day) to separate preview visits from real ones. One test lead with the source `lucid_test` was sent on 4 October 2026 to check the setup.
+
 To finish before launch:
 
 - Point the real enquiry form (a GoHighLevel embed is the plan) at `contact/thanks/` as its redirect after submission. Until then no form leads are counted.
 - Phone clicks show intent, not completed calls. To count and record actual calls, put a call-tracking number that forwards to 877-917-8677 on the site: change `PHONE` and `TEL` at the top of `src/build.py`.
 - Add a privacy policy page that mentions Google Analytics.
 - For a before-and-after comparison, the same measurement ID needs adding to the current Wix site (Wix has a Google Analytics field under Marketing Integrations). That needs Southern Design's Wix login.
+- Google Search Console can only be set up once there is access to the domain (a DNS record) or to the Wix site. After that, submit `sitemap.xml` and link Search Console to the Analytics property.
 
 ## Hosting
 
