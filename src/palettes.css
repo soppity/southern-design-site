@@ -39,10 +39,10 @@
 }
 
 /* the switcher itself: fixed colours so it reads the same on every palette */
-.palette-pick { position: fixed; right: 12px; bottom: 12px; z-index: 60; background: #fff; color: #16181a; border: 1px solid #b9bec4; border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.22); padding: 10px 12px 12px; font-size: .82rem; line-height: 1.2; max-width: calc(100vw - 24px); }
+.palette-pick { position: fixed; right: 12px; bottom: 60px; z-index: 60; background: #fff; color: #16181a; border: 1px solid #b9bec4; border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.22); padding: 10px 12px 12px; font-size: .82rem; line-height: 1.2; max-width: calc(100vw - 24px); }
 .palette-pick b { display: block; font-weight: 700; margin-bottom: 8px; }
 .palette-pick div { display: flex; flex-wrap: wrap; gap: 6px; }
 .palette-pick button { font: inherit; font-weight: 600; display: flex; align-items: center; gap: 7px; background: #fff; color: #16181a; border: 2px solid #b9bec4; border-radius: 4px; padding: 6px 10px; min-height: 36px; cursor: pointer; }
 .palette-pick button[aria-pressed="true"] { border-color: #16181a; background: #f1f2f4; }
 .palette-pick i { width: 22px; height: 14px; border-radius: 2px; display: inline-block; border: 1px solid rgba(0,0,0,.25); }
-@media (max-width: 720px) { .palette-pick { bottom: 78px; } }
+@media (max-width: 720px) { .palette-pick { bottom: 78px; left: 12px; } }

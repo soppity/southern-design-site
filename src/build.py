@@ -116,8 +116,8 @@ def footer(depth):
 <script src="{pre(depth)}assets/site.js" defer></script>'''
 
 # Preview builds carry a palette switcher so the colour options can be compared on the real pages.
-PALETTES = [("", "Blued steel", "#0C1620", "#FFFFFF", "#C39A5F"), ("graphite", "Graphite and red", "#121416", "#FFFFFF", "#BE2026"),
-            ("ivory", "Ivory and red", "#1D1816", "#FBF8F3", "#BE2026"), ("original", "Original", "#464543", "#D1CFCD", "#CFA844")]
+PALETTES = [("", "Blued steel", "#0C1620", "#FFFFFF", "#C39A5F"), ("graphite", "Graphite", "#121416", "#FFFFFF", "#BE2026"),
+            ("ivory", "Ivory", "#1D1816", "#FBF8F3", "#BE2026"), ("original", "Original", "#464543", "#D1CFCD", "#CFA844")]
 PALETTE_HEAD = "" if LIVE else """
 <script>try{var p=localStorage.getItem('sd_palette');if(p)document.documentElement.setAttribute('data-palette',p)}catch(e){}</script>"""
 PALETTE_JS = """<script>(function(){var b=document.querySelectorAll('[data-palette-set]');function show(){var c=document.documentElement.getAttribute('data-palette')||'';b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-palette-set')===c?'true':'false')})}
