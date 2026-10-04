@@ -66,6 +66,20 @@ A preview build adds a small "Colour palette" control at the bottom right of eve
 
 To adopt a different one for launch, copy its values from `src/palettes.css` into the `:root` block. A `--live` build leaves out the control and the alternatives.
 
+## Speed
+
+On 4 October 2026 the home page scored 99 (mobile) and 97 (desktop) for performance on PageSpeed Insights, with 100 for accessibility and best practices. What keeps it there:
+
+- The font is a cut-down copy of Open Sans served from the site (`src/fonts/`), not from Google Fonts. It covers English text and common punctuation; other characters fall back to the system font.
+- The stylesheet is written into every page, so there is no separate file to wait for.
+- Google's Analytics script loads just after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so nothing is lost except a visitor who leaves within about a second.
+- Header photos are requested straight from the HTML. On phones, the home page photo comes through the site's own address using a pass-through rule in `_redirects`, which only works on Netlify. On another host, replace `img/hero-m.webp` with a real file.
+- Fonts, the script and logos are cached for a long time (`_headers`).
+
+The SEO score reads 69 on the preview because the preview is deliberately hidden from search engines. That is the only failing check, and it goes with a `--live` build.
+
+Netlify adds a "Powered by Netlify" badge to free-plan sites. It is a small extra script on every page. It can be switched off under Project configuration > General in Netlify.
+
 ## Tracking
 
 The site sends data to the Google Analytics property "Southern Design website" (account "Southern Design", under patrick@wearelucid.uk). The measurement ID is in `src/tracking.py`; clear it to build with no analytics. Advertising signals are switched off, and nothing a visitor types (name, email, phone) is sent.
