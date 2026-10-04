@@ -25,6 +25,8 @@ The 66 searches are 8 pump problems, 13 local supplier and repair searches, 6 se
 | `2026-10-04/search-positions.csv` | For each search: Southern Design's position on page 1 of Google, the top three sites, and whether Southern Design is named anywhere on the page |
 | `2026-10-04/speed.csv` | PageSpeed Insights scores for the Wix home page and the new home page, mobile and desktop |
 | `2026-10-04/ai-answers.csv` | Three questions asked of Perplexity and who it named |
+| `2026-10-04/ranking-pages.csv` | The top three results for the 19 local and service searches: which page ranks and its title |
+| `competitors.md` | Who ranks instead of Southern Design, why, and what the new site still lacks |
 
 ## How it was measured, and the limits
 
