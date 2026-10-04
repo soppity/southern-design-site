@@ -115,6 +115,17 @@ def footer(depth):
 <div class="actionbar"><a class="btn btn-ghost" href="tel:{TEL}">Call</a><a class="btn btn-signal" href="{h("contact/")}">Request a quote</a></div>
 <script src="{pre(depth)}assets/site.js" defer></script>'''
 
+# Preview builds carry a palette switcher so the colour options can be compared on the real pages.
+PALETTES = [("", "Blued steel", "#0C1620", "#FFFFFF", "#C39A5F"), ("graphite", "Graphite and red", "#121416", "#FFFFFF", "#BE2026"),
+            ("ivory", "Ivory and red", "#1D1816", "#FBF8F3", "#BE2026"), ("original", "Original", "#464543", "#D1CFCD", "#CFA844")]
+PALETTE_HEAD = "" if LIVE else """
+<script>try{var p=localStorage.getItem('sd_palette');if(p)document.documentElement.setAttribute('data-palette',p)}catch(e){}</script>"""
+PALETTE_JS = """<script>(function(){var b=document.querySelectorAll('[data-palette-set]');function show(){var c=document.documentElement.getAttribute('data-palette')||'';b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-palette-set')===c?'true':'false')})}
+b.forEach(function(x){x.addEventListener('click',function(){var k=x.getAttribute('data-palette-set');if(k)document.documentElement.setAttribute('data-palette',k);else document.documentElement.removeAttribute('data-palette');try{localStorage.setItem('sd_palette',k)}catch(e){}show();if(typeof gtag==='function')gtag('event','palette_select',{palette:k||'blued_steel'})})});show()})()</script>"""
+PALETTE_PICK = "" if LIVE else ('\n<div class="palette-pick" role="group" aria-label="Colour palette"><b>Colour palette (preview only)</b><div>' + "".join(
+    f'<button type="button" data-palette-set="{k}"><i style="background:linear-gradient(90deg,{d} 0 40%,{l} 40% 70%,{a} 70%)"></i>{n}</button>' for k, n, d, l, a in PALETTES)
+    + "</div></div>\n" + PALETTE_JS)
+
 def full_title(t): return t if "Southern Design" in t or len(t) > 46 else t + " | Southern Design"
 
 def write(path, title, desc, body, schema, kind, query, depth=None, noindex=False):
@@ -130,7 +141,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">{robots}{ga_snippet(kind)}
+<meta name="viewport" content="width=device-width, initial-scale=1">{robots}{ga_snippet(kind)}{PALETTE_HEAD}
 <title>{esc(t)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canon}">
@@ -150,7 +161,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <body>
 {header(depth, path)}
 {body}
-{footer(depth)}
+{footer(depth)}{PALETTE_PICK}
 </body>
 </html>
 '''
@@ -433,6 +444,7 @@ write("", "Pumps, Mechanical Seals, Valves and Pump Repair | Southern Design", "
 
 # ---------- assets
 css += open("extra.css").read()
+if not LIVE: css += open("palettes.css").read()
 open(OUT + "/assets/site.css", "w").write(css)
 shutil.copy("logo.svg", OUT + "/assets/logo.svg")
 shutil.copy("site.js", OUT + "/assets/site.js")

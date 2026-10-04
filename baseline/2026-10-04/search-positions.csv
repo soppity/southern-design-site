@@ -1,0 +1,70 @@
+group,query,target_page,southern_design_position,ranking_page,results_on_page_1,ai_overview_marker,southern_design_named_anywhere,top_3_sites
+brand,Southern Design and Mechanical,/about/,1,/,7,no,yes,southerndesign.com; pumpsebara.com; linkedin.com
+brand,Southern Design pumps El Dorado Arkansas,/,1,/,9,yes,yes,southerndesign.com; southerndesign.com; southerndesign.com
+brand,Southern Design Millersville Maryland pumps,/locations/maryland-dc-delaware/,1,/,9,yes,yes,southerndesign.com; southerndesign.com; southerndesign.com
+problem,how to calculate pump MTBF,/problems/calculate-pump-mtbf/,not on page 1,,8,yes,no,fidelissecurity.com; getmaintainx.com; pumpsandsystems.com
+problem,why do mag drive pumps fail,/problems/mag-drive-pump-failure/,not on page 1,,8,yes,no,marchpump.com; ptcxpump.com; magnatexpumps.com
+problem,why does my mechanical seal keep failing,/problems/mechanical-seal-keeps-failing/,not on page 1,,7,yes,no,johncrane.com; csidesigns.com; reddit.com
+problem,pump bearing failure causes,/problems/pump-bearing-failure/,not on page 1,,8,yes,no,northridgepumps.com; pumpsystemsllc.com; fwpcoa.org
+problem,pump cavitation causes and fixes,/problems/pump-cavitation/,not on page 1,,8,yes,no,csidesigns.com; pumptec.com; armoloy.com
+problem,pump operating away from best efficiency point,/problems/pump-running-off-curve/,not on page 1,,8,yes,no,wilo.com; mppumps.com; empoweringpumps.com
+problem,repair or replace industrial pump,/problems/repair-or-replace-pump/,not on page 1,,8,yes,no,pumpworks.com; pumpsystemsllc.com; motorgearengineer.com
+problem,water hammer in pump system fix,/problems/water-hammer-pulsation/,not on page 1,,7,yes,no,pumps.org; professionalpump.com; eng-tips.com
+local,pump repair El Dorado Arkansas,/locations/arkansas/,not on page 1,,9,yes,no,tencarva.com; facebook.com; m.yelp.com
+local,pump distributor Arkansas,/locations/arkansas/,not on page 1,,9,yes,no,tencarva.com; cbeuptime.com; catpumps.com
+local,industrial pump repair Arkansas,/services/pump-repair/,not on page 1,,9,yes,no,tencarva.com; gregorymechanical.com; aftgrp.com
+local,industrial pump supplier Arkansas,/products/pumps/,not on page 1,,9,yes,no,cbeuptime.com; tencarva.com; jteng.com
+local,mechanical seal distributor Arkansas,/products/mechanical-seals/,not on page 1,,9,yes,no,aftgrp.com; aesseal.com; cbeuptime.com
+local,industrial valve supplier Arkansas,/products/valves/,not on page 1,,9,yes,no,pvfind.com; thermomegatech.com; thomasnet.com
+local,pump repair Baltimore,/locations/maryland-dc-delaware/,not on page 1,,9,yes,no,cummins-wagner.com; langeelectric.com; yelp.com
+local,pump distributor Maryland,/locations/maryland-dc-delaware/,not on page 1,,9,yes,no,cummins-wagner.com; fitzmyer.com; sthinc.com
+local,industrial pump repair Maryland,/services/pump-repair/,not on page 1,,9,yes,no,cummins-wagner.com; tate.com; langeelectric.com
+local,mechanical seal distributor Maryland,/products/mechanical-seals/,not on page 1,,9,yes,no,thomasnet.com; globalspec.com; cummins-wagner.com
+local,pump distributor Virginia,/locations/virginia-carolinas/,not on page 1,,9,yes,no,cummins-wagner.com; carotek.com; nationalpumpcompany.com
+local,industrial pump repair Virginia,/services/pump-repair/,not on page 1,,9,yes,no,cummins-wagner.com; tencarva.com; emc-co.com
+local,pump distributor North Carolina,/locations/virginia-carolinas/,not on page 1,,9,yes,no,pumpsouth.com; carotek.com; arozone.com
+service,mechanical seal repair service,/services/mechanical-seal-repair/,not on page 1,,9,yes,no,msrseals.com; flexaseal.com; otcindustrial.com
+service,pump reliability program,/services/reliability-management/,not on page 1,,9,yes,no,pumps.org; carotek.com; reliabilityweb.com
+service,rotating equipment reliability management,/services/reliability-management/,not on page 1,,8,yes,no,f7i.ai; exchange.smrp.org; houstondynamic.com
+service,pump system hydraulic analysis,/services/hydraulic-system-analysis/,not on page 1,,8,yes,no,pumps.org; scribd.com; linkedin.com
+service,ICML MLT MLA training lubrication audit,/services/lubrication-training-audits/,not on page 1,,9,yes,no,icmlonline.com; icmlonline.com; alsglobal.com
+service,pump field service installation contractor,/services/field-service/,not on page 1,,9,yes,no,phoenixpumps.com; pumpman.com; hecoinc.com
+industry,pumps for bio-energy plants,/industries/bio-energy/,not on page 1,,9,yes,no,ksb.com; landiainc.com; energypedia.info
+industry,pumps for chemical plants,/industries/chemical/,not on page 1,,8,yes,no,pumpworld.com; pumpbiz.com; eddypump.com
+industry,pumps for pharmaceutical plants,/industries/pharmaceutical/,not on page 1,,8,yes,no,cbeuptime.com; cnppump.com; hayespump.com
+industry,pumps for power generation plants,/industries/power-generation/,not on page 1,,8,yes,no,pumpsandsystems.com; jeepumps.com; power-eng.com
+industry,pumps for pulp and paper plants,/industries/pulp-paper/,not on page 1,,7,yes,no,andritz.com; pumpsandsystems.com; ksb.com
+industry,pumps for steel plants,/industries/steel/,not on page 1,,8,yes,no,generalpump.com; sampumps.com; ksb.com
+industry,pumps for water and wastewater plants,/industries/water-wastewater/,not on page 1,,8,yes,no,cbeuptime.com; eddypump.com; xylem.com
+manufacturer,American Marsh pumps distributor Arkansas,/manufacturers/american-marsh/,not on page 1,,9,yes,no,wilo.com; processnpower.com; wilo.com
+manufacturer,AMRRI lubrication audits and training distributor Arkansas,/manufacturers/amrri/,not on page 1,,9,yes,no,amrri.com; amrri.com; amrri.com
+manufacturer,Aplex reciprocating pumps distributor Maryland,/manufacturers/aplex/,not on page 1,,9,yes,no,pentair.com; rciusa.net; dxpe.com
+manufacturer,Aurora pumps distributor Maryland,/manufacturers/aurora/,not on page 1,,9,yes,no,kappe-inc.com; pentair.com; stevenbrownassociates.com
+manufacturer,BaseTek pump baseplates distributor Arkansas,/manufacturers/basetek/,not on page 1,,9,yes,no,basetek.com; basetek.com; phoenixpumps.com
+manufacturer,Blacoh pulsation dampeners and surge suppressors distributor Arkansas,/manufacturers/blacoh/,not on page 1,,10,yes,no,blacoh.com; blacoh.com; blacoh.com
+manufacturer,Cla-Val automatic control valves distributor Arkansas,/manufacturers/cla-val/,not on page 1,,9,yes,no,cla-val.com; hdfowler.com; cla-val.com
+manufacturer,Ebara submersible pumps distributor Arkansas,/manufacturers/ebara/,not on page 1,,9,yes,yes,pumpsebara.com; pumpsebara.com; pumpsebara.com
+manufacturer,Fairbanks pumps distributor Maryland,/manufacturers/fairbanks/,not on page 1,,9,yes,no,pentair.com; fairbanks.com; stevenbrownassociates.com
+manufacturer,Finish Thompson mag-drive and AODD pumps distributor Arkansas,/manufacturers/finish-thompson/,not on page 1,,10,yes,no,processnpower.com; hipco.com; finishthompson.com
+manufacturer,Flex-A-Seal mechanical seals distributor Arkansas,/manufacturers/flex-a-seal/,not on page 1,,9,yes,no,processnpower.com; flexaseal.com; hmttank.com
+manufacturer,Flexicraft flexible piping distributor Arkansas,/manufacturers/flexicraft/,not on page 1,,9,yes,no,flexicraft.com; ferguson.com; flexicraft.com
+manufacturer,Graco diaphragm and peristaltic pumps distributor Arkansas,/manufacturers/graco/,not on page 1,,9,yes,no,graco.com; hipco.com; tri-ark.com
+manufacturer,Hisco ANSI pumps and parts distributor Arkansas,/manufacturers/hisco/,not on page 1,,9,yes,no,hisco.com; hiscopump.com; mapquest.com
+manufacturer,Isomag bearing isolators distributor Maryland,/manufacturers/isomag/,not on page 1,,9,yes,no,isomag.com; geigerinc.com; johncrane.com
+manufacturer,John Crane mechanical seals distributor Maryland,/manufacturers/john-crane/,not on page 1,,9,yes,no,johncrane.com; geigerinc.com; johncrane.com
+manufacturer,Liquiflo gear pumps distributor Arkansas,/manufacturers/liquiflo/,not on page 1,,9,yes,no,liquiflo.com; tencarva.com; liquiflo.com
+manufacturer,Load Controls pump power monitors distributor Arkansas,/manufacturers/load-controls/,not on page 1,,9,yes,no,cbeuptime.com; tencarva.com; loadcontrols.com
+manufacturer,Lotus industrial mixers distributor Maryland,/manufacturers/lotus/,not on page 1,,9,yes,no,lotusmixers.com; industrialmixers.com; mixco-agitators.com
+manufacturer,Lube-It lubrication management software distributor Arkansas,/manufacturers/lube-it/,not on page 1,,9,yes,no,generationsystems.com; generationsystems.com; amrri.com
+manufacturer,MRI condition monitoring distributor Arkansas,/manufacturers/mri/,not on page 1,,9,yes,no,msmionline.com; aismedical.com; mxrimaging.com
+manufacturer,Myers pumps distributor Maryland,/manufacturers/myers/,not on page 1,,9,yes,no,pentair.com; pumpproducts.com; ferguson.com
+manufacturer,NIBCO valves distributor Arkansas,/manufacturers/nibco/,not on page 1,,9,yes,no,nibco.com; nibco.com.pl; mapquest.com
+manufacturer,Nomad AODD pumps and parts distributor Arkansas,/manufacturers/nomad/,not on page 1,,9,yes,no,maverickpumps.com; airspecialty.com; jdaglobal.com
+manufacturer,PMV valve positioners distributor Arkansas,/manufacturers/pmv/,not on page 1,,10,yes,no,pmv.nu; flosource.com; flowcontrolsolutions.com
+manufacturer,PPC mechanical seals distributor Arkansas,/manufacturers/ppc/,not on page 1,,9,yes,no,ppcmechanicalseals.com; ppcmechanicalseals.com; ppcmechanicalseals.com
+manufacturer,Richter PFA-lined pumps and valves distributor Arkansas,/manufacturers/richter/,not on page 1,,9,yes,no,richter-ct.com; ferguson.com; awc-inc.com
+manufacturer,Safematic seal water control distributor Arkansas,/manufacturers/safematic/,not on page 1,,9,yes,no,thermomegatech.com; aftgrp.com; pvfind.com
+manufacturer,"Sulzer pumps, agitators and mixers distributor Arkansas",/manufacturers/sulzer/,not on page 1,,9,yes,no,sulzer.com; haynesequip.com; tencarva.com
+manufacturer,Toshiba motors and drives distributor Arkansas,/manufacturers/toshiba/,not on page 1,,9,yes,no,toshiba.com; business.toshiba.com; tencarva.com
+manufacturer,Trico lubrication equipment distributor Arkansas,/manufacturers/trico/,not on page 1,,9,yes,no,tricocorp.com; arkansasmill.com; thomasnet.com
+manufacturer,U.S. Seal Mfg. component seals distributor Arkansas,/manufacturers/us-seal/,not on page 1,,9,yes,no,ussealmfg.com; ussealparts.com; ussealmfg.com

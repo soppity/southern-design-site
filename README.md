@@ -10,6 +10,7 @@ A redesign concept for [southerndesign.com](https://www.southerndesign.com/), pr
 | `site/seo-page-map.csv` | Every page with its target search, title and description. |
 | `site/sitemap.xml`, `site/robots.txt`, `site/_redirects`, `site/_headers` | Sitemap, crawler rules, redirects from the five old Wix addresses, and the preview's do-not-index header. |
 | `src/` | The generator that builds `site/`. |
+| `baseline/` | Where Southern Design stood in search, AI answers and site speed before the new site, for a before-and-after comparison. See `baseline/README.md`. |
 
 ## Changing the site
 
@@ -22,7 +23,8 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 | Service and industry pages | `src/content2.py` |
 | Header photos on inner pages | `src/photos.py` |
 | Manufacturer logos (one file per manufacturer, named by its page slug) | `src/logos/` |
-| Home page layout and base styles | `src/home-template.html` |
+| Home page layout, base styles and the colour palette (the `:root` block) | `src/home-template.html` |
+| Alternative colour palettes offered in the preview | `src/palettes.css` |
 | Inner-page styles | `src/extra.css` |
 | Page templates, titles, structured data | `src/build.py` |
 
@@ -47,6 +49,23 @@ This keeps a preview out of search results. It does not stop someone with the li
 
 Build with `--live` only once Southern Design has approved the site. That removes all three and restores the launch `robots.txt` with the sitemap.
 
+## Colour palette
+
+The logo is Southern Design's own and is unchanged: red and white. The site's colours are set once, as named values in the `:root` block of `src/home-template.html`, and every page follows them.
+
+The default palette is "Blued steel and bronze": blue-black dark areas, white pages with cool grey panels, and bronze for buttons and highlights. The logo's red is kept for the logo and for failure markers.
+
+A preview build adds a small "Colour palette" control at the bottom right of every page, so the options can be compared on the real pages. The choice is remembered in that browser only.
+
+| Palette | Dark areas | Page | Accent |
+|---|---|---|---|
+| Blued steel (default) | Blue-black | White, cool grey panels | Bronze |
+| Graphite and red | Neutral graphite | White, grey panels | The logo's red |
+| Ivory and red | Espresso brown | Warm ivory | The logo's red |
+| Original | Charcoal | Grey | Gold (the colours from the current Wix site) |
+
+To adopt a different one for launch, copy its values from `src/palettes.css` into the `:root` block. A `--live` build leaves out the control and the alternatives.
+
 ## Tracking
 
 The site sends data to the Google Analytics property "Southern Design website" (account "Southern Design", under patrick@wearelucid.uk). The measurement ID is in `src/tracking.py`; clear it to build with no analytics. Advertising signals are switched off, and nothing a visitor types (name, email, phone) is sent.
@@ -60,6 +79,7 @@ The site sends data to the Google Analytics property "Southern Design website" (
 | `form_start` | Someone starts filling in the enquiry form | No |
 | `portal_click` | An existing customer clicks through to the portal | No |
 | `form_demo_submit` | The concept form is submitted (it sends nothing) | No |
+| `palette_select` | Someone picks a palette in the preview control (preview builds only) | No |
 
 Each event records where on the page it happened, and every page reports its type (guide, manufacturer, service and so on) as the content group.
 
@@ -71,6 +91,7 @@ Already set up in the Analytics property:
 - Five custom dimensions, so leads and clicks can be broken down in reports: Link location, Enquiry need, Enquiry state, First source, First landing page.
 - Event data is kept for 14 months (the default is 2).
 - Optional data sharing with Google is off.
+- Visits from ChatGPT, Perplexity and similar need no setup: the property's default channel group already has an "AI Assistant" channel.
 
 The tag works on any address the site is served from, so it is already recording visits to the Netlify preview. Nothing needs changing when the real domain is pointed at the site. In reports, filter on the built-in Hostname dimension (or by date from launch day) to separate preview visits from real ones. One test lead with the source `lucid_test` was sent on 4 October 2026 to check the setup.
 

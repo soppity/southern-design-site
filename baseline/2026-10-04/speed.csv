@@ -1,0 +1,5 @@
+site,url,device,performance,accessibility,best_practices,seo,first_contentful_paint_s,largest_contentful_paint_s,total_blocking_time_ms,layout_shift,speed_index_s,real_user_data,tested
+Current Wix site,https://www.southerndesign.com/,mobile,67,85,100,92,3.6,8.8,0,0,3.6,none available,2026-10-04 18:18 BST
+Current Wix site,https://www.southerndesign.com/,desktop,91,91,100,92,0.6,2.0,0,0.003,0.8,none available,2026-10-04 18:18 BST
+New site preview,https://eclectic-crumble-44cab0.netlify.app/,mobile,75,95,100,69,2.7,4.6,110,0,4.8,none available,2026-10-04 18:19 BST
+New site preview,https://eclectic-crumble-44cab0.netlify.app/,desktop,94,95,100,69,0.8,1.3,120,0.001,1.0,none available,2026-10-04 18:19 BST

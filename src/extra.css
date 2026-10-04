@@ -1,8 +1,8 @@
 
 /* ---------- inner pages ---------- */
-.nav a[aria-current="page"] { color: var(--signal); }
+.nav a[aria-current="page"] { color: var(--accent-on-dark); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 6px; text-decoration-thickness: 2px; }
 .brand-mark { display: block; }
-.text-link { margin-left: 18px; color: var(--signal); font-weight: 700; text-underline-offset: 5px; }
+.text-link { margin-left: 18px; color: var(--accent-on-dark); font-weight: 700; text-underline-offset: 5px; }
 .linecard b a { color: inherit; text-decoration-color: var(--gold-dark); text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .linecard b a:hover, .rows b a:hover, .industries b a:hover, .service h3 a:hover { color: var(--gold-dark); }
 .linecard em, .rows em { font-style: normal; font-weight: 700; font-size: .8rem; color: var(--gold-dark); white-space: nowrap; }
@@ -16,8 +16,8 @@
 .page-head h1 { font-size: clamp(2.1rem, 5vw, 3.6rem); max-width: 22ch; }
 .page-head .lede { color: var(--steel); }
 .page-head .lede:empty { display: none; }
-.page-head .lede a { color: var(--signal); font-weight: 700; }
-.page-head.has-photo { background: linear-gradient(90deg, rgba(43,43,43,.97) 0%, rgba(43,43,43,.9) 50%, rgba(43,43,43,.2) 100%), var(--char) var(--photo) center / cover no-repeat; min-height: 340px; display: flex; align-items: center; }
+.page-head .lede a { color: var(--accent-on-dark); font-weight: 700; }
+.page-head.has-photo { background: linear-gradient(90deg, rgb(var(--char-rgb) / .97) 0%, rgb(var(--char-rgb) / .9) 50%, rgb(var(--char-rgb) / .2) 100%), var(--char) var(--photo) center / cover no-repeat; min-height: 340px; display: flex; align-items: center; }
 .page-head.has-photo > .wrap { width: 100%; }
 .page-head.has-photo .lede { max-width: 52ch; }
 .page-head .with-plate { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(24px, 5vw, 64px); align-items: center; }
@@ -58,7 +58,7 @@ aside { position: sticky; top: 112px; display: grid; gap: 20px; }
 .aside-card h2 { font-size: 1.45rem; max-width: none; }
 .aside-card p, .aside-card address { margin-top: 10px; color: var(--steel); font-style: normal; font-size: .98rem; }
 .aside-card .phone { display: block; margin: 16px 0; font-variation-settings: "wdth" 75; font-weight: 800; font-size: 1.9rem; line-height: 1; color: #fff; text-decoration: none; }
-.aside-card .phone:hover { color: var(--signal); }
+.aside-card .phone:hover { color: var(--accent-on-dark); }
 .aside-card .btn { width: 100%; }
 .aside-list { background: var(--panel); padding: 22px 26px; border-radius: 4px; }
 .aside-list h2 { font-size: 1.15rem; max-width: none; }
@@ -78,7 +78,7 @@ aside { position: sticky; top: 112px; display: grid; gap: 20px; }
 }
 @media (max-width: 720px) {
   .rows li { grid-template-columns: 1fr; }
-  .page-head.has-photo { background-image: linear-gradient(rgba(43,43,43,.86), rgba(43,43,43,.86)), var(--photo-sm); min-height: 0; }
+  .page-head.has-photo { background-image: linear-gradient(rgb(var(--char-rgb) / .86), rgb(var(--char-rgb) / .86)), var(--photo-sm); min-height: 0; }
   .page-head .with-plate { grid-template-columns: minmax(0, 1fr); }
   .brand-plate { width: 200px; height: 110px; padding: 16px 20px; order: -1; }
   .text-link { display: block; margin: 18px 0 0; }

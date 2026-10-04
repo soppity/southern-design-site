@@ -12,6 +12,7 @@ gtag('consent', 'default', {ad_storage: 'denied', ad_user_data: 'denied', ad_per
 gtag('js', new Date());
 gtag('config', 'G-82G25FYWZW', {content_group: 'Home'});
 </script>
+<script>try{var p=localStorage.getItem('sd_palette');if(p)document.documentElement.setAttribute('data-palette',p)}catch(e){}</script>
 <title>Pumps, Mechanical Seals, Valves and Pump Repair | Southern Design</title>
 <meta name="description" content="Southern Design supplies pumps, mechanical seals and valves, with pump repair, failure analysis and reliability management across AR, MD, DC, DE, VA, NC and SC.">
 <link rel="canonical" href="https://www.southerndesign.com/">
@@ -79,9 +80,9 @@ gtag('config', 'G-82G25FYWZW', {content_group: 'Home'});
           </div>
           <div class="axis" aria-hidden="true"><span>Month 0</span><span>6</span><span>12</span><span>18</span><span>24</span><span>30</span><span>36</span></div>
           <ul class="legend">
-            <li><i style="background:#BE2026"></i>Seal replaced, five times</li>
+            <li><i style="background:var(--fault-on-dark)"></i>Seal replaced, five times</li>
             <li><i style="background:#fff"></i>Root cause found</li>
-            <li><i style="background:#CFA844"></i>18 months, no failures</li>
+            <li><i style="background:var(--good)"></i>18 months, no failures</li>
           </ul>
         </div>
         <p class="history-cap">Replacing the seal five times treats the symptom. One root cause analysis ends the pattern. That is the difference between a parts supplier and a reliability partner.</p>
@@ -162,10 +163,10 @@ gtag('config', 'G-82G25FYWZW', {content_group: 'Home'});
         <table>
           <thead><tr><th scope="col">Equipment</th><th scope="col">MTBF</th><th scope="col">12-month cost</th></tr></thead>
           <tbody>
-            <tr><td>P-204B<small>Black liquor transfer</small></td><td>4.1 mo<div class="bar"><i style="width:18%;background:#BE2026"></i></div></td><td>$48,200<small>5 repairs</small></td></tr>
-            <tr><td>P-117A<small>Cooling water</small></td><td>9.5 mo<div class="bar"><i style="width:42%;background:#A69374"></i></div></td><td>$21,750<small>2 repairs</small></td></tr>
-            <tr><td>P-330<small>Caustic unloading</small></td><td>11.2 mo<div class="bar"><i style="width:50%;background:#A69374"></i></div></td><td>$14,300<small>1 repair</small></td></tr>
-            <tr><td>P-052<small>Boiler feed</small></td><td>38 mo<div class="bar"><i style="width:100%;background:#CFA844"></i></div></td><td>$0<small>No repairs</small></td></tr>
+            <tr><td>P-204B<small>Black liquor transfer</small></td><td>4.1 mo<div class="bar"><i style="width:18%;background:var(--fault-on-dark)"></i></div></td><td>$48,200<small>5 repairs</small></td></tr>
+            <tr><td>P-117A<small>Cooling water</small></td><td>9.5 mo<div class="bar"><i style="width:42%;background:var(--tan)"></i></div></td><td>$21,750<small>2 repairs</small></td></tr>
+            <tr><td>P-330<small>Caustic unloading</small></td><td>11.2 mo<div class="bar"><i style="width:50%;background:var(--tan)"></i></div></td><td>$14,300<small>1 repair</small></td></tr>
+            <tr><td>P-052<small>Boiler feed</small></td><td>38 mo<div class="bar"><i style="width:100%;background:var(--good)"></i></div></td><td>$0<small>No repairs</small></td></tr>
           </tbody>
         </table>
         <p class="report-foot">Cost is repair material plus labor plus downtime. The worst few machines usually carry most of the spend, so that is where the work starts.</p>
@@ -381,5 +382,8 @@ gtag('config', 'G-82G25FYWZW', {content_group: 'Home'});
 </div></footer>
 <div class="actionbar"><a class="btn btn-ghost" href="tel:+18779178677">Call</a><a class="btn btn-signal" href="contact/index.html">Request a quote</a></div>
 <script src="assets/site.js" defer></script>
+<div class="palette-pick" role="group" aria-label="Colour palette"><b>Colour palette (preview only)</b><div><button type="button" data-palette-set=""><i style="background:linear-gradient(90deg,#0C1620 0 40%,#FFFFFF 40% 70%,#C39A5F 70%)"></i>Blued steel</button><button type="button" data-palette-set="graphite"><i style="background:linear-gradient(90deg,#121416 0 40%,#FFFFFF 40% 70%,#BE2026 70%)"></i>Graphite and red</button><button type="button" data-palette-set="ivory"><i style="background:linear-gradient(90deg,#1D1816 0 40%,#FBF8F3 40% 70%,#BE2026 70%)"></i>Ivory and red</button><button type="button" data-palette-set="original"><i style="background:linear-gradient(90deg,#464543 0 40%,#D1CFCD 40% 70%,#CFA844 70%)"></i>Original</button></div></div>
+<script>(function(){var b=document.querySelectorAll('[data-palette-set]');function show(){var c=document.documentElement.getAttribute('data-palette')||'';b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-palette-set')===c?'true':'false')})}
+b.forEach(function(x){x.addEventListener('click',function(){var k=x.getAttribute('data-palette-set');if(k)document.documentElement.setAttribute('data-palette',k);else document.documentElement.removeAttribute('data-palette');try{localStorage.setItem('sd_palette',k)}catch(e){}show();if(typeof gtag==='function')gtag('event','palette_select',{palette:k||'blued_steel'})})});show()})()</script>
 </body>
 </html>
