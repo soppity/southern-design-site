@@ -5,15 +5,19 @@ GA_MEASUREMENT_ID = "G-82G25FYWZW"
 
 
 def ga_snippet(page_type):
-    """The Analytics tag for one page. Advertising signals are off; this is measurement only."""
+    """The Analytics tag for one page. Advertising signals are off; this is measurement only.
+    Events queue from the first moment; Google's script itself is fetched just after the page has loaded
+    (or at the visitor's first tap, key press or scroll, whichever comes first) so it does not slow the first paint."""
     if not GA_MEASUREMENT_ID:
         return ""
     return f'''
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){{dataLayer.push(arguments);}}
 gtag('consent', 'default', {{ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted'}});
 gtag('js', new Date());
 gtag('config', '{GA_MEASUREMENT_ID}', {{content_group: '{page_type}'}});
+(function(){{var done=0;function go(){{if(done)return;done=1;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}';document.head.appendChild(s)}}
+['pointerdown','keydown','touchstart','scroll'].forEach(function(e){{addEventListener(e,go,{{once:true,passive:true}})}});
+if(document.readyState==='complete')setTimeout(go,1200);else addEventListener('load',function(){{setTimeout(go,1200)}})}})();
 </script>'''

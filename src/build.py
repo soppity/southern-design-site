@@ -1,4 +1,4 @@
-import re, json, os, shutil, html, csv, sys
+import re, json, os, shutil, html, csv, sys, hashlib
 from brands import BRANDS, CATS, TERR, PUMP_TYPES
 from guides import GUIDES
 from content2 import SERVICES, INDUSTRIES
@@ -18,6 +18,17 @@ shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT + "/assets")
 
 concept = open("home-template.html").read()
 css = concept[concept.index("<style>") + 7:concept.index("</style>")]
+css += open("extra.css").read()
+if not LIVE: css += open("palettes.css").read()
+# Speed: the stylesheet is inlined in every page and the font is served from this site, so nothing blocks the first paint.
+css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+css = re.sub(r"\s+", " ", css)
+css = re.sub(r" ?([{};,>]) ?", r"\1", css).replace(";}", "}").strip()
+FONT_CSS = ('@font-face{font-family:"Open Sans";font-style:normal;font-weight:300 800;font-stretch:75% 100%;font-display:swap;src:url(ASSETSfonts/open-sans.woff2) format("woff2")}'
+            '@font-face{font-family:"Open Sans";font-style:italic;font-weight:300 800;font-stretch:75% 100%;font-display:swap;src:url(ASSETSfonts/open-sans-italic.woff2) format("woff2")}')
+def page_css(depth): return FONT_CSS.replace("ASSETS", pre(depth) + "assets/") + css
+def ver(name): return hashlib.md5(open(name, "rb").read()).hexdigest()[:8]
+V_JS, V_LOGO = ver("site.js"), ver("logo.svg")
 home_main = concept[concept.index('<main id="main">'):concept.index("</main>") + 7]
 form_html = concept[concept.index('<form id="quote-form"'):concept.index("</form>") + 7]
 
@@ -87,7 +98,7 @@ def header(depth, here=""):
 </div></div>
 <header class="site-head"><div class="wrap">
   <a class="brand" href="{href(depth, "")}" aria-label="Southern Design home">
-    <img class="brand-mark" src="{pre(depth)}assets/logo.svg" alt="" width="50" height="62">
+    <img class="brand-mark" src="{pre(depth)}assets/logo.svg?v={V_LOGO}" alt="" width="50" height="62">
     <span class="brand-name"><b>SOUTHERN</b> DESIGN<span class="brand-sub">Redefining Reliability</span></span>
   </a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -100,7 +111,7 @@ def footer(depth):
     return f'''<footer class="foot"><div class="wrap">
   <div class="foot-grid">
     <div>
-      <img class="foot-mark" src="{pre(depth)}assets/logo.svg" alt="" width="44" height="54" loading="lazy">
+      <img class="foot-mark" src="{pre(depth)}assets/logo.svg?v={V_LOGO}" alt="" width="44" height="54" loading="lazy">
       <b>Southern Design and Mechanical, Inc.</b>
       <p>Pumps, mechanical seals, valves and reliability services for industrial plants and water utilities.</p>
       <ul><li><a href="tel:{TEL}">{PHONE}</a></li><li><a href="mailto:info@southerndesign.com">info@southerndesign.com</a></li></ul>
@@ -113,7 +124,7 @@ def footer(depth):
   <div class="foot-base">Concept redesign prepared by Lucid for discussion. Company details taken from the public Southern Design website. Photos are free-licence stock from Unsplash, standing in until Southern Design supplies its own.</div>
 </div></footer>
 <div class="actionbar"><a class="btn btn-ghost" href="tel:{TEL}">Call</a><a class="btn btn-signal" href="{h("contact/")}">Request a quote</a></div>
-<script src="{pre(depth)}assets/site.js" defer></script>'''
+<script src="{pre(depth)}assets/site.js?v={V_JS}" defer></script>'''
 
 # Preview builds carry a palette switcher so the colour options can be compared on the real pages.
 PALETTES = [("", "Blued steel", "#0C1620", "#FFFFFF", "#C39A5F"), ("graphite", "Graphite", "#121416", "#FFFFFF", "#BE2026"),
@@ -152,10 +163,9 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <meta property="og:url" content="{canon}">{og_image}
 <meta name="twitter:card" content="{"summary_large_image" if og_image else "summary"}">
 <link rel="icon" href="{pre(depth)}assets/logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{pre(depth)}assets/site.css">
+<link rel="preload" href="{pre(depth)}assets/fonts/open-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<style>{page_css(depth)}</style>
 <script type="application/ld+json">{json.dumps(graph, ensure_ascii=False)}</script>
 </head>
 <body>
@@ -417,9 +427,9 @@ m = m[:a] + f'''<div class="tabs" role="tablist" aria-label="Product categories"
         <button class="tab" role="tab" id="t-rel" aria-controls="p-rel" aria-selected="false" tabindex="-1">Reliability accessories<span>{len(t2)}</span></button>
         <button class="tab" role="tab" id="t-val" aria-controls="p-val" aria-selected="false" tabindex="-1">Valves and automation<span>{len(t3)}</span></button>
       </div>
-      <ul class="linecard" id="p-rot" role="tabpanel" aria-labelledby="t-rot">{lc(t1)}</ul>
-      <ul class="linecard" id="p-rel" role="tabpanel" aria-labelledby="t-rel" hidden>{lc(t2)}</ul>
-      <ul class="linecard" id="p-val" role="tabpanel" aria-labelledby="t-val" hidden>{lc(t3)}</ul>
+      <div id="p-rot" role="tabpanel" aria-labelledby="t-rot"><ul class="linecard">{lc(t1)}</ul></div>
+      <div id="p-rel" role="tabpanel" aria-labelledby="t-rel" hidden><ul class="linecard">{lc(t2)}</ul></div>
+      <div id="p-val" role="tabpanel" aria-labelledby="t-val" hidden><ul class="linecard">{lc(t3)}</ul></div>
       <p class="linecard-note">Lines differ by territory; the states are shown beside each name. Do not see the brand you run? <a href="contact/index.html">Ask us anyway</a>, or browse <a href="products/index.html">products by type</a>.</p>''' + m[b:]
 prob = '''<section class="band band-panel" aria-labelledby="prob-h">
     <div class="wrap">
@@ -443,9 +453,8 @@ home_schema = [ORG, {"@type": "WebSite", "@id": SITE + "#site", "url": SITE, "na
 write("", "Pumps, Mechanical Seals, Valves and Pump Repair | Southern Design", "Southern Design supplies pumps, mechanical seals and valves, with pump repair, failure analysis and reliability management across AR, MD, DC, DE, VA, NC and SC.", m, home_schema, "Home", "pump and seal supplier with repair and reliability services", depth=0)
 
 # ---------- assets
-css += open("extra.css").read()
-if not LIVE: css += open("palettes.css").read()
-open(OUT + "/assets/site.css", "w").write(css)
+os.makedirs(OUT + "/assets/fonts")
+for f in ("open-sans.woff2", "open-sans-italic.woff2", "OFL.txt"): shutil.copy("fonts/" + f, OUT + "/assets/fonts/" + f)
 shutil.copy("logo.svg", OUT + "/assets/logo.svg")
 shutil.copy("site.js", OUT + "/assets/site.js")
 if os.path.isdir("logos") and os.listdir("logos"):
@@ -453,10 +462,13 @@ if os.path.isdir("logos") and os.listdir("logos"):
 
 PAGES.sort(key=lambda p: (p["url"].count("/"), p["url"]))
 open(OUT + "/sitemap.xml", "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{SITE}{p['url'][1:]}</loc><lastmod>{DATE}</lastmod></url>\n" for p in PAGES) + "</urlset>\n")
+CACHE = "/assets/fonts/*\n  Cache-Control: public, max-age=31536000, immutable\n/assets/site.js\n  Cache-Control: public, max-age=31536000, immutable\n/assets/logo.svg\n  Cache-Control: public, max-age=31536000, immutable\n/assets/brands/*\n  Cache-Control: public, max-age=2592000\n"
 if not LIVE:
     open(OUT + "/robots.txt", "w").write("# Preview build: not for indexing. Rebuild with --live for launch.\nUser-agent: *\nDisallow: /\n")
-    open(OUT + "/_headers", "w").write("# Preview build. Format: Netlify / Cloudflare Pages.\n/*\n  X-Robots-Tag: noindex, nofollow\n")
-else: open(OUT + "/robots.txt", "w").write(f"""# Southern Design: open to search engines and AI search crawlers
+    open(OUT + "/_headers", "w").write("# Preview build. Format: Netlify / Cloudflare Pages.\n/*\n  X-Robots-Tag: noindex, nofollow\n" + CACHE)
+else:
+  open(OUT + "/_headers", "w").write("# Format: Netlify / Cloudflare Pages.\n" + CACHE)
+  open(OUT + "/robots.txt", "w").write(f"""# Southern Design: open to search engines and AI search crawlers
 User-agent: *
 Allow: /
 

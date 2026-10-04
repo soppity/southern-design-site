@@ -311,7 +311,7 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
   .door:last-child { border-bottom: 0; }
   .services { grid-template-columns: 1fr; }
   .industries li, .ind-grid .industries li { grid-template-columns: 1fr; }
-  .hero-photo { background-image: linear-gradient(rgb(var(--ink-rgb) / .86), rgb(var(--ink-rgb) / .86)), url("https://images.unsplash.com/photo-1509390288171-ce2088f7d08e?auto=format&fit=crop&w=900&q=70"); }
+  .hero-photo { background-image: linear-gradient(rgb(var(--ink-rgb) / .86), rgb(var(--ink-rgb) / .86)), url("https://images.unsplash.com/photo-1509390288171-ce2088f7d08e?auto=format&fit=crop&w=800&q=60"); }
   .linecard { columns: 1; }
   .flag { display: none; }
   .legend { display: flex; }
@@ -441,7 +441,7 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
         <button class="tab" role="tab" id="t-val" aria-controls="p-val" aria-selected="false" tabindex="-1">Valves and automation<span>4</span></button>
       </div>
 
-      <ul class="linecard" id="p-rot" role="tabpanel" aria-labelledby="t-rot">
+      <div id="p-rot" role="tabpanel" aria-labelledby="t-rot"><ul class="linecard">
         <li><b>American Marsh</b><small>Self-priming, split case and vertical turbine pumps</small></li>
         <li><b>Aplex</b><small>High-pressure reciprocating pumps</small></li>
         <li><b>Aurora</b><small>Split case and general industry pumps</small></li>
@@ -459,8 +459,8 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
         <li><b>Richter</b><small>PFA-lined mag-drive and sealed pumps</small></li>
         <li><b>Toshiba</b><small>Electric motors, drives and control panels</small></li>
         <li><b>U.S. Seal Mfg.</b><small>Component seals</small></li>
-      </ul>
-      <ul class="linecard" id="p-rel" role="tabpanel" aria-labelledby="t-rel" hidden>
+      </ul></div>
+      <div id="p-rel" role="tabpanel" aria-labelledby="t-rel" hidden><ul class="linecard">
         <li><b>AMRRI</b><small>Lubrication audits and training</small></li>
         <li><b>BaseTek</b><small>Corrosion-resistant foundations and baseplates</small></li>
         <li><b>Blacoh</b><small>Pulsation, surge and water hammer control</small></li>
@@ -472,13 +472,13 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
         <li><b>RMS</b><small>Reliability management software</small></li>
         <li><b>Safematic</b><small>Seal water control and monitoring</small></li>
         <li><b>Trico</b><small>Lubrication protection equipment</small></li>
-      </ul>
-      <ul class="linecard" id="p-val" role="tabpanel" aria-labelledby="t-val" hidden>
+      </ul></div>
+      <div id="p-val" role="tabpanel" aria-labelledby="t-val" hidden><ul class="linecard">
         <li><b>Cla-Val</b><small>Automatic control valves</small></li>
         <li><b>NIBCO</b><small>Butterfly, ball, gate, globe and check valves</small></li>
         <li><b>PMV</b><small>Positioners, switches and feedback</small></li>
         <li><b>Richter</b><small>PFA-lined control, relief and sampling valves</small></li>
-      </ul>
+      </ul></div>
       <p class="linecard-note">Shown: the Maryland, DC and Delaware line card. Lines differ by territory, so check yours under <a href="#regions">Locations</a>. Do not see the brand you run? <a href="#quote">Ask us anyway</a>.</p>
     </div>
   </section>
