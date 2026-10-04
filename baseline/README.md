@@ -27,6 +27,8 @@ The 66 searches are 8 pump problems, 13 local supplier and repair searches, 6 se
 | `2026-10-04/ai-answers.csv` | Three questions asked of Perplexity and who it named |
 | `2026-10-04/ranking-pages.csv` | The top three results for the 19 local and service searches: which page ranks and its title |
 | `competitors.md` | Who ranks instead of Southern Design, why, and what the new site still lacks |
+| `actions-for-southern-design.md` | What only Southern Design can do: addresses, Google listing, manufacturer and directory listings, material for the site |
+| `2026-10-04/distributor-listings.csv` | Each manufacturer's distributor page and whether it lists Southern Design |
 
 ## How it was measured, and the limits
 

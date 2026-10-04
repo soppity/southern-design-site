@@ -6,7 +6,7 @@ A redesign concept for [southerndesign.com](https://www.southerndesign.com/), pr
 
 | Path | What it is |
 |---|---|
-| `site/` | The built site: 70 static HTML pages, ready to host. Open `site/index.html` to browse it locally. |
+| `site/` | The built site: 89 static HTML pages plus a thank-you page, ready to host. Open `site/index.html` to browse it locally. |
 | `site/seo-page-map.csv` | Every page with its target search, title and description. |
 | `site/sitemap.xml`, `site/robots.txt`, `site/_redirects`, `site/_headers` | Sitemap, crawler rules, redirects from the five old Wix addresses, and the preview's do-not-index header. |
 | `src/` | The generator that builds `site/`. |
@@ -47,6 +47,16 @@ The site carries Southern Design's name and logo, so it is built as a **preview*
 This keeps a preview out of search results. It does not stop someone with the link from opening it; use the host's password protection for that.
 
 Build with `--live` only once Southern Design has approved the site. That removes all three and restores the launch `robots.txt` with the sitemap.
+
+## State pages
+
+Buyers search by state, and Southern Design's lines differ by state, so each of the three territories has its own set of pages under `locations/`:
+
+- an overview (`locations/arkansas/`),
+- one page per product type that territory carries (`locations/arkansas/pumps/`, `.../mechanical-seals/` and so on), listing only the manufacturers on that territory's line card,
+- a pump repair page (`locations/arkansas/pump-repair/`).
+
+They are generated from `src/brands.py`, so changing which territories a manufacturer is supplied in updates them. The repair pages each carry a marked gap for detail only Southern Design can give.
 
 ## Colour palette
 
@@ -110,10 +120,10 @@ Publish the `site/` folder. `_redirects` and `_headers` are in Netlify / Cloudfl
 
 ## Still needed before it goes live
 
-- An engineer at Southern Design to review the eight problem guides, and a named reviewer on each.
+- An engineer at Southern Design to review the nine problem guides, and a named reviewer on each.
 - Confirmation of their status with each manufacturer. Pages say "supplier", not "authorized distributor".
 - A check of the Virginia and Carolinas line list against their own line sheet.
 - Real case studies and the people for the About page (placeholders are marked).
 - Their own photos. The current ones are free-licence stock from Unsplash, loaded by link.
-- Manufacturer logos checked against each manufacturer's brand guidelines. The current files were taken from Southern Design's own 2024 line sheets. Flex-A-Seal, MRI and Lotus have no logo on those sheets, so their pages have none.
+- Manufacturer logos checked against each manufacturer's brand guidelines. The current files were taken from Southern Design's own 2024 line sheets. Flex-A-Seal, MRI and Lotus have no logo on those sheets, so their pages have none. PMV has none either: its line sheet logo was Flowserve's, and Flowserve sold PMV in August 2026.
 - A real enquiry form. The current one does not send anything.

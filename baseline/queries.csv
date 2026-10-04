@@ -10,21 +10,21 @@ problem,pump cavitation causes and fixes,/problems/pump-cavitation/
 problem,pump operating away from best efficiency point,/problems/pump-running-off-curve/
 problem,repair or replace industrial pump,/problems/repair-or-replace-pump/
 problem,water hammer in pump system fix,/problems/water-hammer-pulsation/
-local,pump repair El Dorado Arkansas,/locations/arkansas/
-local,pump distributor Arkansas,/locations/arkansas/
-local,industrial pump repair Arkansas,/services/pump-repair/
-local,industrial pump supplier Arkansas,/products/pumps/
-local,mechanical seal distributor Arkansas,/products/mechanical-seals/
-local,industrial valve supplier Arkansas,/products/valves/
-local,pump repair Baltimore,/locations/maryland-dc-delaware/
-local,pump distributor Maryland,/locations/maryland-dc-delaware/
-local,industrial pump repair Maryland,/services/pump-repair/
-local,mechanical seal distributor Maryland,/products/mechanical-seals/
-local,pump distributor Virginia,/locations/virginia-carolinas/
-local,industrial pump repair Virginia,/services/pump-repair/
-local,pump distributor North Carolina,/locations/virginia-carolinas/
+local,pump repair El Dorado Arkansas,/locations/arkansas/pump-repair/
+local,pump distributor Arkansas,/locations/arkansas/pumps/
+local,industrial pump repair Arkansas,/locations/arkansas/pump-repair/
+local,industrial pump supplier Arkansas,/locations/arkansas/pumps/
+local,mechanical seal distributor Arkansas,/locations/arkansas/mechanical-seals/
+local,industrial valve supplier Arkansas,/locations/arkansas/valves/
+local,pump repair Baltimore,/locations/maryland-dc-delaware/pump-repair/
+local,pump distributor Maryland,/locations/maryland-dc-delaware/pumps/
+local,industrial pump repair Maryland,/locations/maryland-dc-delaware/pump-repair/
+local,mechanical seal distributor Maryland,/locations/maryland-dc-delaware/mechanical-seals/
+local,pump distributor Virginia,/locations/virginia-carolinas/pumps/
+local,industrial pump repair Virginia,/locations/virginia-carolinas/pump-repair/
+local,pump distributor North Carolina,/locations/virginia-carolinas/pumps/
 service,mechanical seal repair service,/services/mechanical-seal-repair/
-service,pump reliability program,/services/reliability-management/
+service,pump reliability program,/problems/pump-reliability-program/
 service,rotating equipment reliability management,/services/reliability-management/
 service,pump system hydraulic analysis,/services/hydraulic-system-analysis/
 service,ICML MLT MLA training lubrication audit,/services/lubrication-training-audits/

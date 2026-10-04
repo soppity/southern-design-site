@@ -81,8 +81,9 @@ def terr_abbr(t): return ", ".join({"ar": "AR", "md": "MD, DC, DE", "va": "VA, N
 def terr_long(t):
     n = {"ar": "Arkansas", "md": "Maryland, DC and Delaware", "va": "Virginia, North Carolina and South Carolina"}
     return "; ".join(n[x] for x in t) if len(t) > 1 else n[t[0]]
-def terr_chips(t, depth):
-    return '<ul class="chips">' + "".join(f'<li><a href="{href(depth, "locations/" + TERR[x][0] + "/")}">{TERR[x][1]}</a></li>' for x in t) + "</ul>"
+def terr_chips(t, depth, sub=""):
+    """Links to each territory's page, or to a page under it such as "pumps/" or "pump-repair/"."""
+    return '<ul class="chips">' + "".join(f'<li><a href="{href(depth, "locations/" + TERR[x][0] + "/" + sub)}">{TERR[x][1]}</a></li>' for x in t) + "</ul>"
 
 ORG = {"@type": "Organization", "@id": SITE + "#org", "name": "Southern Design and Mechanical, Inc.", "alternateName": ["Southern Design", "SD&M"],
        "url": SITE, "logo": SITE + "assets/logo.svg", "telephone": "+1-877-917-8677", "email": "info@southerndesign.com",
@@ -181,7 +182,6 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
         PAGES.append(dict(url="/" + path, kind=kind, query=query, title=t, description=desc))
 
 LOGO_ALT = {s: "Pentair logo, covering Aurora, Myers, Fairbanks Nijhuis and Aplex" for s in ("aplex", "aurora", "fairbanks", "myers")}
-LOGO_ALT["pmv"] = "Flowserve PMV Positioners logo"
 
 def logo_size(f):
     """width and height attributes for a logo file, so the page does not shift when it loads."""
@@ -260,7 +260,7 @@ for s in SERVICES:
     crumbs = HOME_C + [("Services", "services/"), (s["nav"], path)]
     body = ""
     for h, bl in s["sections"]: body += f"\n<h2>{h}</h2>\n" + blocks(bl, d)
-    body += "\n<h2>Where we provide it</h2>\n<p>Across Southern Design's territories, from offices in El Dorado, Arkansas and Millersville, Maryland.</p>" + terr_chips(["ar", "md", "va"], d)
+    body += "\n<h2>Where we provide it</h2>\n<p>Across Southern Design's territories, from offices in El Dorado, Arkansas and Millersville, Maryland.</p>" + terr_chips(["ar", "md", "va"], d, "pump-repair/" if s["slug"] == "pump-repair" else "")
     body += "\n" + faq_html(s["faq"], d)
     aside = cta(d, "Talk to a specialist", "Tell us the equipment and what you need. It goes to the specialist for your state.", "Request service", {"pump-repair": "repair", "mechanical-seal-repair": "repair", "reliability-management": "rms", "lubrication-training-audits": "training"}.get(s["slug"], "troubleshoot")) \
         + side_list("Related guides", [(G[x]["nav"], f"problems/{x}/") for x in s["guides"]], d)
@@ -280,7 +280,7 @@ for b in B.values():
     h1 = f"{b['name']} {b['noun']} in {terr_h1(b['terr'])}"
     lede = b["line"]
     body = f"<h2>What we supply</h2>\n<ul>" + "".join(f"<li>{i}</li>" for i in b["items"]) + "</ul>"
-    body += f"\n<h2>Where we supply {b['name']}</h2>\n<p>{b['name']} is on Southern Design's line card in the territories below. Lines differ by state, so if yours is not listed, ask and we will point you to the right product.</p>" + terr_chips(b["terr"], d)
+    body += f"\n<h2>Where we supply {b['name']}</h2>\n<p>{b['name']} is on Southern Design's line card in the territories below. Lines differ by state, so if yours is not listed, ask and we will point you to the right product.</p>" + terr_chips(b["terr"], d, cat[0] + "/")
     sup = ["Selection and sizing for your liquid, flow and pressure, backed by [[services/hydraulic-system-analysis/|hydraulic system analysis]] where the system is the question"]
     if b["cat"] in ("pumps", "seals"): sup.append("[[services/pump-repair/|Repair]] with root cause failure analysis when something fails")
     if b["cat"] == "seals": sup.append("[[services/mechanical-seal-repair/|Seal repair and exchange programs]]")
@@ -328,6 +328,7 @@ for c, (cslug, cname, cnav) in CATS.items():
     body += f"\n<h2>Manufacturers</h2>\n" + rows([(b["name"], f"manufacturers/{b['slug']}/", f"{b['line']} <em>{terr_tag(b['terr'])}</em>") for b in members], d)
     rel = {"pumps": ["pump-cavitation", "pump-running-off-curve", "repair-or-replace-pump", "mag-drive-pump-failure"], "seals": ["mechanical-seal-keeps-failing"], "valves": ["water-hammer-pulsation"], "motors": ["pump-running-off-curve"], "reliability": ["pump-bearing-failure", "water-hammer-pulsation", "calculate-pump-mtbf"]}[c]
     body += "\n<h2>Related pump problems</h2>\n" + blocks([[f"[[problems/{x}/|{G[x]['h1']}]]" for x in rel]], d)
+    body += f"\n<h2>{cnav} by territory</h2>\n<p>Lines differ by state. See what is on the line card where you are.</p>" + terr_chips(["ar", "md", "va"], d, cslug + "/")
     write(path, title, (lede if len(lede) > 115 else lede + " Supplied across Arkansas and the Mid-Atlantic."),
           inner(path, crumbs, h1, lede, f'<div class="prose wide">{body}</div>', ""), [ORG, crumbs_schema(crumbs)], "Product category", query)
 
@@ -374,8 +375,8 @@ for t, L in LOC.items():
         ms = [b for b in B.values() if b["cat"] == c and t in b["terr"]]
         if c == "valves" and t in B["richter"]["terr"]: ms.append(B["richter"])
         if not ms: continue
-        body += f'\n<h3><a href="{href(d, "products/" + CATS[c][0] + "/")}">{CATS[c][2]}</a></h3>\n<ul>' + "".join(f'<li><a href="{href(d, "manufacturers/" + b["slug"] + "/")}">{b["name"]}</a>: {b["noun"]}</li>' for b in ms) + "</ul>"
-    body += f"\n<h2>Services in {tname}</h2>\n" + blocks([[f"[[services/{s['slug']}/|{s['nav']}]]" for s in SERVICES]], d)
+        body += f'\n<h3><a href="{href(d, path + CATS[c][0] + "/")}">{CATS[c][2]} in {tname}</a></h3>\n<ul>' + "".join(f'<li><a href="{href(d, "manufacturers/" + b["slug"] + "/")}">{b["name"]}</a>: {b["noun"]}</li>' for b in ms) + "</ul>"
+    body += f"\n<h2>Services in {tname}</h2>\n" + blocks([[f"[[{path}pump-repair/|Pump repair in {tname}]]"] + [f"[[services/{s['slug']}/|{s['nav']}]]" for s in SERVICES if s["slug"] != "pump-repair"]], d)
     body += "\n<h2>Problems we are called about</h2>\n" + blocks([[f"[[problems/{g['slug']}/|{g['h1']}]]" for g in GUIDES[:5]]], d)
     aside = f'''<div class="aside-card"><h2>{L["office"]}</h2><address>{"<br>".join(L["addr"])}</address>
 <a class="phone" href="tel:{L["tel"]}">{L["phone"]}</a>
@@ -384,6 +385,124 @@ for t, L in LOC.items():
     if L["pa"]: lb["address"] = L["pa"]
     schema = [ORG, lb if L["pa"] else {"@type": "Service", "name": f"Pump supply and repair in {tname}", "provider": ORG_REF, "areaServed": L["area"], "url": SITE + path}, crumbs_schema(crumbs)]
     write(path, L["title"], L["meta"], inner(path, crumbs, L["h1"], L["lede"], body, aside), schema, "Location", L["query"])
+# ---------- state pages: one per product category, plus pump repair, for each territory
+# Buyers search by state ("pump distributor Arkansas"), and the lines differ by state, so each territory gets its own pages.
+ST_TITLE = {"ar": "Arkansas", "md": "Maryland, DC, Delaware", "va": "Virginia, NC and SC"}
+ST_WHERE = {"ar": "across Arkansas, from its corporate office in El Dorado",
+            "md": "across Maryland, Washington DC and Delaware, from its East Coast office in Millersville, between Baltimore and Annapolis",
+            "va": "across Virginia, North Carolina and South Carolina, through its regional specialists"}
+ST_OFFICE_FAQ = {"ar": "The corporate office is at 2710 North West Avenue, El Dorado, AR 71730. Call (870) 725-2588.",
+                 "md": "The East Coast office is at 8229 Cloverleaf Drive, Suite 430, Millersville, MD 21108, between Baltimore and Annapolis. Call 877-917-8677.",
+                 "va": "There is no walk-in office in the territory. Regional specialists cover Virginia, North Carolina and South Carolina. Call 877-917-8677."}
+ST_CAT = {  # title, h1, plural noun for the FAQ, search it answers
+ "pumps": ("Industrial Pump Distributor in {t}", "Industrial pump supplier and distributor in {n}", "pump", "pump distributor {s}"),
+ "seals": ("Mechanical Seal Distributor in {t}", "Mechanical seal supplier and distributor in {n}", "mechanical seal", "mechanical seal distributor {s}"),
+ "valves": ("Industrial Valve Supplier in {t}", "Industrial valve and valve automation supplier in {n}", "valve", "industrial valve supplier {s}"),
+ "motors": ("Motors and Drives Supplier in {t}", "Motors, drives and pump protection in {n}", "motor and drive", "Toshiba motor distributor {s}"),
+ "reliability": ("Pump Reliability Accessories in {t}", "Reliability accessories for pumps in {n}", "reliability accessory", "bearing isolators, pulsation dampeners {s}"),
+}
+ST_REL = {"pumps": ["pump-cavitation", "pump-running-off-curve", "repair-or-replace-pump", "mag-drive-pump-failure"], "seals": ["mechanical-seal-keeps-failing"], "valves": ["water-hammer-pulsation"],
+          "motors": ["pump-running-off-curve"], "reliability": ["pump-bearing-failure", "water-hammer-pulsation", "pump-reliability-program"]}
+ST_QUERY_STATE = {"ar": "Arkansas", "md": "Maryland", "va": "Virginia / North Carolina"}
+
+def st_members(t, c):
+    ms = [x for x in B.values() if x["cat"] == c and t in x["terr"]]
+    extra = {"valves": "richter", "motors": "load-controls", "seals": "safematic"}.get(c)
+    if extra and t in B[extra]["terr"]: ms.append(B[extra])
+    return ms
+
+def st_office(t, d):
+    L = LOC[t]
+    return f'''<div class="aside-card"><h2>{L["office"]}</h2><address>{"<br>".join(L["addr"])}</address>
+<a class="phone" href="tel:{L["tel"]}">{L["phone"]}</a>
+<a class="btn btn-signal" href="{href(d, "contact/")}?need=quote">Request a quote</a></div>'''
+
+def st_more(t, d, skip):
+    slug, tname, _ = TERR[t]
+    items = [(f"{CATS[c][2]}", f"locations/{slug}/{CATS[c][0]}/") for c in CATS if st_members(t, c) and c != skip]
+    if skip != "repair": items.append(("Pump repair", f"locations/{slug}/pump-repair/"))
+    items.append((f"All of {tname}", f"locations/{slug}/"))
+    return side_list(f"More in {tname}", items, d)
+
+for t in TERR:
+    slug, tname, tlong = TERR[t]; L = LOC[t]; d = 3
+    for c in CATS:
+        ms = st_members(t, c)
+        if not ms: continue
+        cslug, cname, cnav = CATS[c]
+        path = f"locations/{slug}/{cslug}/"
+        PHOTO[path] = PHOTO[f"locations/{slug}/"]
+        crumbs = HOME_C + [("Locations", "locations/"), (tname, f"locations/{slug}/"), (cnav, path)]
+        title, h1, noun, query = [x.format(t=ST_TITLE[t], n=tname, s=ST_QUERY_STATE[t]) for x in ST_CAT[c]]
+        names = [x["name"] for x in ms]
+        listed = ", ".join(names[:-1]) + (" and " if len(names) > 1 else "") + names[-1]
+        lede = f"Southern Design supplies {cname.lower()} to plants and utilities {ST_WHERE[t]}. {len(ms)} manufacturer{'s' if len(ms) != 1 else ''} on the {tname} line card, with selection, repair and field service behind them."
+        body = f"<h2>{cnav} we supply in {tname}</h2>\n" + rows([(x["name"], f"manufacturers/{x['slug']}/", x["line"]) for x in ms], d)
+        if c == "pumps":
+            have = {x["slug"] for x in ms}
+            body += "\n" + table((f"Pump types available in {tname}", ["Pump type", "Manufacturers"],
+                                  [[pt, ", ".join(f"[[manufacturers/{s}/|{B[s]['name']}]]" for s in sl if s in have)] for pt, sl in PUMP_TYPES if any(s in have for s in sl)]), d)
+        others = [x["name"] for x in B.values() if x["cat"] == c and t not in x["terr"]]
+        if others:
+            body += f"\n<h2>Not on the {tname} line card</h2>\n<p>{', '.join(others)}: supplied by Southern Design in other territories, not this one. If one of these is on your nameplate, ask and we will point you to the right product.</p>"
+        sup = ["Selection and sizing for your liquid, flow and pressure, backed by [[services/hydraulic-system-analysis/|hydraulic system analysis]] where the system is the question"]
+        if c in ("pumps", "seals"): sup.append(f"[[locations/{slug}/pump-repair/|Repair in {tname}]], with root cause failure analysis when something fails")
+        if c == "seals": sup.append("[[services/mechanical-seal-repair/|Seal repair and exchange programs]]")
+        sup += ["[[services/field-service/|Field service]] for installation and troubleshooting", "[[services/reliability-management/|Reliability management]] for plants that want the failures tracked and reduced"]
+        body += "\n<h2>What comes with the product</h2>\n" + blocks([sup], d)
+        body += "\n<h2>Related pump problems</h2>\n" + blocks([[f"[[problems/{x}/|{G[x]['h1']}]]" for x in ST_REL[c]]], d)
+        faq = [(f"Which {noun} brands does Southern Design supply in {tname}?", f"{listed}. Lines differ by state, so this list is specific to {tlong}."),
+               (f"Where is Southern Design's office for {tname}?", ST_OFFICE_FAQ[t])]
+        if c in ("pumps", "seals"):
+            faq.append((f"Do you repair {noun}s in {tname} as well as supply them?", f"Yes. See [[locations/{slug}/pump-repair/|pump repair in {tname}]]. Every repair comes with the cause of failure."))
+        body += "\n" + faq_html(faq, d)
+        aside = st_office(t, d) + st_more(t, d, c) + side_list(f"{cnav} in other territories", [(TERR[x][1], f"locations/{TERR[x][0]}/{cslug}/") for x in TERR if x != t and st_members(x, c)], d)
+        tail = " Selection and field service." if c == "reliability" else " Selection, repair and field service."
+        meta = f"{cname} for plants and utilities in {tname}: {listed}."
+        if len(meta) < 125: meta += tail
+        if len(meta) > 158: meta = f"{cname} in {tname} from {len(ms)} manufacturers, including {', '.join(names[:3])}.{tail}"
+        schema = [ORG, {"@type": "Service", "name": h1, "serviceType": f"{cname} supply", "provider": ORG_REF, "areaServed": L["area"], "url": SITE + path}, faq_schema(faq), crumbs_schema(crumbs)]
+        write(path, title, meta, inner(path, crumbs, h1, lede, body, aside), schema, "State product page", query)
+
+    # pump repair in this territory
+    path = f"locations/{slug}/pump-repair/"
+    PHOTO[path] = PHOTO[f"locations/{slug}/"]
+    crumbs = HOME_C + [("Locations", "locations/"), (tname, f"locations/{slug}/"), ("Pump repair", path)]
+    h1 = f"Industrial pump repair in {tname}"
+    lede = f"Southern Design repairs pumps, mechanical seals and other rotating equipment for plants and utilities {ST_WHERE[t]}. Every repair comes with the cause of failure, so you know what to change, not just what was replaced."
+    pumps = st_members(t, "pumps"); seals = [x for x in st_members(t, "seals") if x["slug"] != "safematic"]
+    body = "<h2>What we repair</h2>\n" + blocks([[
+        "A wide variety of pumps and other rotating equipment",
+        "Magnetic drive and mechanically sealed pumps",
+        "Mechanical seals, with [[services/mechanical-seal-repair/|exchange programs]] so a rebuilt seal is ready when the next one is needed",
+        f"Equipment from the lines we supply in {tname}: " + ", ".join(f"[[manufacturers/{x['slug']}/|{x['name']}]]" for x in pumps),
+        f"Seals from " + ", ".join(f"[[manufacturers/{x['slug']}/|{x['name']}]]" for x in seals)]], d)
+    body += f"\n<h2>How a repair runs</h2>\n" + blocks([("ol", [
+        f'Call <a href="tel:{L["tel"]}">{L["phone"]}</a> or [[contact/|send the make, model and what happened]].',
+        "We inspect the pump and report what failed and why.",
+        "You approve the scope, including any upgrades worth making while it is apart.",
+        "We repair it.",
+        "The repair and its cause go into the pump's history. Contract customers see this in the [[services/reliability-management/|Reliability Management System]]."])], d)
+    body += f"\n<h2>At your plant</h2>\n<p>Not every problem needs the pump pulled. On-site performance troubleshooting is part of the service, and [[services/field-service/|field service technicians]] work at plants in {tlong} by the day or as a turnkey job.</p>".replace("[[services/field-service/|field service technicians]]", f'<a href="{href(d, "services/field-service/")}">field service technicians</a>')
+    body += "\n<h2>If the same pump keeps coming back</h2>\n" + blocks([[
+        "[[problems/repair-or-replace-pump/|Repair or replace: how to decide]]",
+        "[[problems/mechanical-seal-keeps-failing/|Why mechanical seals keep failing]]",
+        "[[problems/pump-bearing-failure/|Why pump bearings fail early]]",
+        "[[problems/pump-reliability-program/|How to set up a pump reliability program]]"]], d)
+    body += f'\n<div class="slot"><span class="slot-kind">Needed from Southern Design</span><p>Where repairs for {tname} customers are carried out, what the shop can handle (lifting capacity, balancing, test stand), typical turnaround, and photos of the shop and the people. The pages that rank first for pump repair searches in this territory are built from exactly this.</p></div>'
+    faq = [(f"What types of pump do you repair in {tname}?", "A wide variety of pumps and rotating equipment, including magnetic drive and mechanically sealed pumps. Send the make and model and we will confirm."),
+           (f"Can someone come to our plant?", f"Yes. Field service technicians work on site in {tlong} by the day or as a turnkey job, and on-site performance troubleshooting is part of the repair service."),
+           ("Where do I send a pump for repair?", f"Call {L['phone']} first. The specialist for {tname} will confirm where it should go."),
+           ("Will you tell us why the pump failed?", "Yes. Root cause failure analysis and reporting is part of the service for pumps and mechanical seals.")]
+    if t == "md": faq.insert(2, ("Do you cover Baltimore?", "Yes. The Millersville office is between Baltimore and Annapolis and covers Maryland, Washington DC and Delaware."))
+    body += "\n" + faq_html(faq, d)
+    aside = st_office(t, d).replace("Request a quote</a>", "Arrange a repair</a>").replace("?need=quote", "?need=repair") + st_more(t, d, "repair") \
+        + side_list("Pump repair in other territories", [(TERR[x][1], f"locations/{TERR[x][0]}/pump-repair/") for x in TERR if x != t], d)
+    title = f"Industrial Pump Repair in {ST_TITLE[t]}"
+    meta = f"Pump and mechanical seal repair for plants and utilities in {tname}, with root cause failure analysis and field service. Call {L['phone']}."
+    schema = [ORG, {"@type": "Service", "name": h1, "serviceType": "Industrial pump repair", "provider": ORG_REF, "areaServed": L["area"], "url": SITE + path}, faq_schema(faq), crumbs_schema(crumbs)]
+    write(path, title, meta, inner(path, crumbs, h1, lede, body, aside), schema, "State service page", f"industrial pump repair {ST_QUERY_STATE[t]}")
+
 path = "locations/"; crumbs = HOME_C + [("Locations", path)]
 write(path, "Locations: Arkansas, Maryland, Virginia, the Carolinas", "Southern Design serves Arkansas from El Dorado, and Maryland, DC, Delaware, Virginia and the Carolinas from Millersville, Maryland.",
       inner(path, crumbs, "Find the specialist for your state", "Two offices, three territories. Lines differ by state, so start with yours.", rows([(TERR[t][1], f"locations/{TERR[t][0]}/", LOC[t]["lede"]) for t in TERR], 1), ""), [ORG, crumbs_schema(crumbs)], "Hub", "Southern Design locations")

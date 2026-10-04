@@ -32,7 +32,9 @@ For the "how do I fix this" searches (cavitation, seal failure, reliability prog
 ## What the new site already answers
 
 - A page per state, per service and per manufacturer (32), each with the state in the title: points 1 and 5.
-- Eight problem guides: the informational searches.
+- A page for each product type in each territory ("Industrial Pump Distributor in Arkansas"), listing the lines actually on that state's line card: 15 pages.
+- A pump repair page for each territory.
+- Nine problem guides, including one on setting up a pump reliability program: the informational searches.
 
 ## What it still lacks, and who has to supply it
 
@@ -42,8 +44,10 @@ For the "how do I fix this" searches (cavitation, seal failure, reliability prog
 | Reviews and hours on the Arkansas listing | Empty listings rank below complete ones | Southern Design |
 | Listings on manufacturers' distributor pages | They rank themselves and link back; Southern Design already appears on Ebara's | Southern Design to ask each manufacturer |
 | Thomasnet and GlobalSpec profiles | Both appear in the top three for Arkansas and Maryland supplier searches | Southern Design to claim or create them |
-| Repair pages for a named place ("Pump repair in Arkansas", "Pump repair in Maryland") | The service page covers every territory at once; competitors win with one page per state | Real detail from Southern Design: where repairs are done, what the shop can handle, turnaround |
+| Detail on the three state repair pages | The pages exist, but the ones that outrank them show the shop, its equipment and its people | Southern Design: where repairs are done, what the shop can handle, turnaround |
 | Facility photos, shop equipment, named people | The Baltimore repair page that ranks first is built from exactly this | Southern Design |
+
+The full list of what Southern Design needs to do, with the address and listing details found, is in `actions-for-southern-design.md`.
 
 ## Realistic expectation
 
