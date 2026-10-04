@@ -26,7 +26,19 @@ css = re.sub(r"\s+", " ", css)
 css = re.sub(r" ?([{};,>]) ?", r"\1", css).replace(";}", "}").strip()
 FONT_CSS = ('@font-face{font-family:"Open Sans";font-style:normal;font-weight:300 800;font-stretch:75% 100%;font-display:swap;src:url(ASSETSfonts/open-sans.woff2) format("woff2")}'
             '@font-face{font-family:"Open Sans";font-style:italic;font-weight:300 800;font-stretch:75% 100%;font-display:swap;src:url(ASSETSfonts/open-sans-italic.woff2) format("woff2")}')
-def page_css(depth): return FONT_CSS.replace("ASSETS", pre(depth) + "assets/") + css
+def page_css(depth): return FONT_CSS.replace("ASSETS", pre(depth) + "assets/") + css.replace("ROOTimg/", pre(depth) + "img/")
+# The largest thing painted first is the header photo, so it is requested straight from the HTML rather than waiting for the styles.
+# On phones the home page photo comes through this site's own address (a pass-through rule in _redirects), which saves a second connection.
+HERO = "photo-1509390288171-ce2088f7d08e"
+HERO_DESKTOP = f"https://images.unsplash.com/{HERO}?auto=format&fit=crop&w=1800&q=60"
+HERO_MOBILE_SRC = f"https://images.unsplash.com/{HERO}?fit=crop&w=640&q=50&fm=webp"
+def preloads(path, depth):
+    if path == "":
+        return (f'\n<link rel="preload" as="image" href="img/hero-m.webp" media="(max-width: 720px)" fetchpriority="high">'
+                f'\n<link rel="preload" as="image" href="{esc(HERO_DESKTOP)}" media="(min-width: 721px)" fetchpriority="high">')
+    if path in PHOTO:
+        return f'\n<link rel="preload" as="image" href="{esc(photo_url(PHOTO[path][0], 1800))}" media="(min-width: 721px)" fetchpriority="high">'
+    return ""
 def ver(name): return hashlib.md5(open(name, "rb").read()).hexdigest()[:8]
 V_JS, V_LOGO = ver("site.js"), ver("logo.svg")
 home_main = concept[concept.index('<main id="main">'):concept.index("</main>") + 7]
@@ -164,7 +176,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <meta name="twitter:card" content="{"summary_large_image" if og_image else "summary"}">
 <link rel="icon" href="{pre(depth)}assets/logo.svg" type="image/svg+xml">
 <link rel="preload" href="{pre(depth)}assets/fonts/open-sans.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="preconnect" href="https://images.unsplash.com">{preloads(path, depth)}
 <style>{page_css(depth)}</style>
 <script type="application/ld+json">{json.dumps(graph, ensure_ascii=False)}</script>
 </head>
@@ -485,7 +497,10 @@ Allow: /
 
 Sitemap: {SITE}sitemap.xml
 """)
-open(OUT + "/_redirects", "w").write("""# Old Wix URLs to new pages (301). Format: Netlify / Cloudflare Pages.
+open(OUT + "/_redirects", "w").write(f"""# The phone-sized home page photo, passed through from Unsplash so it loads from this site's own address (Netlify).
+/img/hero-m.webp        {HERO_MOBILE_SRC}  200
+
+# Old Wix URLs to new pages (301). Format: Netlify / Cloudflare Pages.
 /about-sdm              /about/                            301
 /product-solutions      /products/                         301
 /reliability-solutions  /services/reliability-management/  301

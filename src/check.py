@@ -1,5 +1,7 @@
 import os, re, json, sys
 root = os.path.abspath("../site"); bad = []; n = 0; h1bad = []; titles = {}; hidden = 0; pages = 0
+# addresses served by a rule in _redirects rather than by a file
+ruled = {l.split()[0] for l in open(os.path.join(root, "_redirects")) if l.strip() and not l.startswith("#")}
 for dp, dn, fn in os.walk(root):
     for f in fn:
         if not f.endswith(".html"): continue
@@ -7,7 +9,8 @@ for dp, dn, fn in os.walk(root):
         for h in re.findall(r'(?:href|src)="([^"#?]+)[^"]*"', s):
             if re.match(r"(https?:|mailto:|tel:)", h): continue
             n += 1
-            if not os.path.exists(os.path.normpath(os.path.join(dp, h))): bad.append((os.path.relpath(p, root), h))
+            target = os.path.normpath(os.path.join(dp, h))
+            if not os.path.exists(target) and "/" + os.path.relpath(target, root) not in ruled: bad.append((os.path.relpath(p, root), h))
         for j in re.findall(r'<script type="application/ld\+json">(.*?)</script>', s, re.S): json.loads(j)
         if len(re.findall(r"<h1[ >]", s)) != 1: h1bad.append(os.path.relpath(p, root))
         t = re.search(r"<title>(.*?)</title>", s).group(1); titles.setdefault(t, []).append(os.path.relpath(p, root))

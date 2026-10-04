@@ -1,3 +1,6 @@
+# The phone-sized home page photo, passed through from Unsplash so it loads from this site's own address (Netlify).
+/img/hero-m.webp        https://images.unsplash.com/photo-1509390288171-ce2088f7d08e?fit=crop&w=640&q=50&fm=webp  200
+
 # Old Wix URLs to new pages (301). Format: Netlify / Cloudflare Pages.
 /about-sdm              /about/                            301
 /product-solutions      /products/                         301
