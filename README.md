@@ -56,7 +56,7 @@ The colours are set once, as named values in the `:root` block of `src/home-temp
 
 ## Speed
 
-On 4 October 2026 the home page scored 99 (mobile) and 97 (desktop) for performance on PageSpeed Insights, with 100 for accessibility and best practices. What keeps it there:
+On 4 October 2026 the home page scored 99 (mobile) and 97 (desktop) for performance on PageSpeed Insights, with 100 for accessibility and best practices. A guide page and a manufacturer page each scored 100 on both. What keeps it there:
 
 - The font is a cut-down copy of Open Sans served from the site (`src/fonts/`), not from Google Fonts. It covers English text and common punctuation; other characters fall back to the system font.
 - The stylesheet is written into every page, so there is no separate file to wait for.
