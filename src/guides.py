@@ -326,4 +326,64 @@ dict(
  services=["pump-repair", "mechanical-seal-repair", "reliability-management"],
  brands=["hisco", "basetek", "nomad"],
 ),
+dict(
+ slug="pump-reliability-program",
+ h1="How to set up a pump reliability program",
+ title="How to Set Up a Pump Reliability Program: 7 Steps",
+ meta="A pump reliability program is a list of what you have, a record of every failure and its cost, and root cause work on the worst pumps. Seven steps to start.",
+ query="pump reliability program",
+ nav="Setting up a reliability program",
+ short="A pump reliability program is a routine for finding out which pumps fail most, why, and what stops it. It needs three things: an accurate list of the pumps you have, a record of every failure with its cause and cost, and one person responsible for working through the worst machines. In most plants a small share of the pumps accounts for a large share of the repair spend, so the first job is to find them.",
+ table=("What to record for every failure", ["Record", "Why it matters", "Where it usually comes from"], [
+  ["Pump tag and service", "Ties the failure to one machine, not to a model", "Equipment list"],
+  ["Date, and run time since the last repair", "Gives the time between failures", "Work order, hour meter"],
+  ["What failed: seal, bearing, coupling, impeller, motor", "Shows the pattern on that pump", "Repair report"],
+  ["Why it failed: the cause, not the part", "The only thing that prevents the next one", "Root cause analysis"],
+  ["Parts and labor cost", "Ranks pumps by money, not by how often they are mentioned", "Purchase orders, time sheets"],
+  ["Downtime, and what it cost", "Often larger than the repair itself", "Operations"],
+ ]),
+ sections=[
+  ("1. List what you have", [
+   "Walk the plant and record what is actually installed: tag, service, make, model, size, seal, motor. Records drift as pumps are swapped and rebuilt, so do not rely on the old list. Then rate each pump by what happens when it stops: a safety or environmental risk, lost production, or nothing because the spare takes over. That rating decides where the effort goes.",
+  ]),
+  ("2. Record every failure and what it cost", [
+   "Agree what counts as a failure and keep to it. A common definition is any event that takes the pump out of service for repair. Record each one against the pump's tag, using the table above. Cost matters as much as count: a pump that fails twice a year at high cost deserves attention before one that fails four times for the price of a seal.",
+  ]),
+  ("3. Measure and rank", [
+   "Calculate mean time between failures for the plant and for each pump; the guide to [[problems/calculate-pump-mtbf/|calculating pump MTBF]] has the formula and a worked example. Then sort the list by number of failures and by cost. The pumps at the top are the bad actors, and the list is usually short.",
+  ]),
+  ("4. Find the cause of each repeat failure", [
+   "A bad actor gets a root cause analysis, not another repair. Keep the failed parts, read them, and check how the pump was running. The same causes come up from plant to plant:",
+   ["The pump runs away from its best efficiency point. See [[problems/pump-running-off-curve/|running off the curve]].",
+    "The seal runs dry, or its flush is not working. See [[problems/mechanical-seal-keeps-failing/|why seals keep failing]].",
+    "Lubrication: the wrong oil, too much grease, or water and dirt getting in. See [[problems/pump-bearing-failure/|why bearings fail early]].",
+    "Too little pressure at the pump inlet. See [[problems/pump-cavitation/|pump cavitation]].",
+    "Misalignment, pipe strain or a baseplate that flexes."],
+  ]),
+  ("5. Fix the cause and write down the standard", [
+   "Make the change the analysis points to: trim the impeller or change the control so the pump runs near its best efficiency point, correct the seal flush, fit bearing protection, regrout the base. Then make it the standard, so the next repair does not undo it: alignment tolerances, how seals are installed, which lubricant goes where. A repair shop that reports the cause with every repair makes this much easier.",
+  ]),
+  ("6. Watch condition between failures", [
+   "Once the worst pumps are dealt with, monitoring catches the next problem early.",
+   ["Vibration readings on a route, or continuous monitoring on critical machines",
+    "Motor power monitoring, which shows dry running and off-design operation. See [[manufacturers/load-controls/|power monitors]].",
+    "Oil analysis and a planned lubrication program. See [[services/lubrication-training-audits/|lubrication audits and training]].",
+    "Operator rounds: leaks, noise, temperature, oil level"],
+  ]),
+  ("7. Review the numbers on a schedule", [
+   "Look at MTBF, cost per pump and the bad actor list at a fixed interval, monthly or quarterly. Close out each root cause action and check that the pump has stopped failing. A program that is not reviewed turns back into a repair log.",
+  ]),
+  ("Who should run it", [
+   "One named person, with time set aside for it. In a small plant that is the maintenance or reliability lead. Plants without that person can contract it: Southern Design's [[services/reliability-management/|Reliability Management System]] builds the equipment database, reports MTBF and cost per machine, and assigns a lead reliability engineer to work through the bad actors with you.",
+  ]),
+ ],
+ faq=[
+  ("What is a pump reliability program?", "A routine for recording pump failures, finding their causes and fixing those causes, so the same pumps stop failing. It combines an equipment list, failure and cost records, root cause analysis and condition monitoring."),
+  ("What is a bad actor?", "A pump that fails far more often, or costs far more to keep running, than the rest. Bad actors are where a reliability program starts."),
+  ("Do we need software to start?", "No. A spreadsheet with one row per failure is enough to start. Software earns its place when there are too many pumps and repairs for one person to keep straight."),
+  ("How long before a reliability program shows results?", "The bad actor list is usually clear once a year of failure records is in one place. Results follow as each cause is fixed, so the timing depends on how quickly the changes are made."),
+ ],
+ services=["reliability-management", "pump-repair", "lubrication-training-audits"],
+ brands=["load-controls", "mri", "trico", "isomag"],
+),
 ]

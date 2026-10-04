@@ -12,6 +12,7 @@ PHOTO = {
     "problems/water-hammer-pulsation/": ("1538474705339-e87de81450e8", "Runs of flanged industrial pipe"),
     "problems/mag-drive-pump-failure/": ("1513828583688-c52646db42da", "Motor-driven equipment among stainless steel process pipework"),
     "problems/repair-or-replace-pump/": ("1723022208597-a641bdadf60c", "Old machine with worn, rusted gears"),
+    "problems/pump-reliability-program/": ("1738918937796-743064feefa1", "Control room panel with rows of gauges and indicators"),
     # services
     "services/pump-repair/": ("1776090188130-26c7253ff423", "Lathe in a machine shop"),
     "services/mechanical-seal-repair/": ("1745449064670-94bd0fc13df8", "Workshop tools laid out on a bench"),
