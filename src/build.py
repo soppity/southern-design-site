@@ -19,7 +19,6 @@ shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT + "/assets")
 concept = open("home-template.html").read()
 css = concept[concept.index("<style>") + 7:concept.index("</style>")]
 css += open("extra.css").read()
-if not LIVE: css += open("palettes.css").read()
 # Speed: the stylesheet is inlined in every page and the font is served from this site, so nothing blocks the first paint.
 css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
 css = re.sub(r"\s+", " ", css)
@@ -37,8 +36,7 @@ def preloads(path, depth):
         return (f'\n<link rel="preload" as="image" href="img/hero-m.webp" media="(max-width: 720px)" fetchpriority="high">'
                 f'\n<link rel="preload" as="image" href="{esc(HERO_DESKTOP)}" media="(min-width: 721px)" fetchpriority="high">')
     if path in PHOTO:
-        return (f'\n<link rel="preload" as="image" href="{pre(depth)}img/m/photo-{PHOTO[path][0]}" media="(max-width: 720px)" fetchpriority="high">'
-                f'\n<link rel="preload" as="image" href="{esc(photo_url(PHOTO[path][0], 1800))}" media="(min-width: 721px)" fetchpriority="high">')
+        return f'\n<link rel="preload" as="image" href="{esc(photo_url(PHOTO[path][0], 1800))}" media="(min-width: 721px)" fetchpriority="high">'
     return ""
 def ver(name): return hashlib.md5(open(name, "rb").read()).hexdigest()[:8]
 V_JS, V_LOGO = ver("site.js"), ver("logo.svg")
@@ -139,17 +137,6 @@ def footer(depth):
 <div class="actionbar"><a class="btn btn-ghost" href="tel:{TEL}">Call</a><a class="btn btn-signal" href="{h("contact/")}">Request a quote</a></div>
 <script src="{pre(depth)}assets/site.js?v={V_JS}" defer></script>'''
 
-# Preview builds carry a palette switcher so the colour options can be compared on the real pages.
-PALETTES = [("", "Blued steel", "#0C1620", "#FFFFFF", "#C39A5F"), ("graphite", "Graphite", "#121416", "#FFFFFF", "#BE2026"),
-            ("ivory", "Ivory", "#1D1816", "#FBF8F3", "#BE2026"), ("original", "Original", "#464543", "#D1CFCD", "#CFA844")]
-PALETTE_HEAD = "" if LIVE else """
-<script>try{var p=localStorage.getItem('sd_palette');if(p)document.documentElement.setAttribute('data-palette',p)}catch(e){}</script>"""
-PALETTE_JS = """<script>(function(){var b=document.querySelectorAll('[data-palette-set]');function show(){var c=document.documentElement.getAttribute('data-palette')||'';b.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-palette-set')===c?'true':'false')})}
-b.forEach(function(x){x.addEventListener('click',function(){var k=x.getAttribute('data-palette-set');if(k)document.documentElement.setAttribute('data-palette',k);else document.documentElement.removeAttribute('data-palette');try{localStorage.setItem('sd_palette',k)}catch(e){}show();if(typeof gtag==='function')gtag('event','palette_select',{palette:k||'blued_steel'})})});show()})()</script>"""
-PALETTE_PICK = "" if LIVE else ('\n<div class="palette-pick" role="group" aria-label="Colour palette"><b>Colour palette (preview only)</b><div>' + "".join(
-    f'<button type="button" data-palette-set="{k}"><i style="background:linear-gradient(90deg,{d} 0 40%,{l} 40% 70%,{a} 70%)"></i>{n}</button>' for k, n, d, l, a in PALETTES)
-    + "</div></div>\n" + PALETTE_JS)
-
 def full_title(t): return t if "Southern Design" in t or len(t) > 46 else t + " | Southern Design"
 
 def write(path, title, desc, body, schema, kind, query, depth=None, noindex=False):
@@ -165,7 +152,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">{robots}{ga_snippet(kind)}{PALETTE_HEAD}
+<meta name="viewport" content="width=device-width, initial-scale=1">{robots}{ga_snippet(kind)}
 <title>{esc(t)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canon}">
@@ -184,7 +171,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 <body>
 {header(depth, path)}
 {body}
-{footer(depth)}{PALETTE_PICK}
+{footer(depth)}
 </body>
 </html>
 '''

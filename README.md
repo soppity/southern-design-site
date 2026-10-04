@@ -24,7 +24,6 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 | Header photos on inner pages | `src/photos.py` |
 | Manufacturer logos (one file per manufacturer, named by its page slug) | `src/logos/` |
 | Home page layout, base styles and the colour palette (the `:root` block) | `src/home-template.html` |
-| Alternative colour palettes offered in the preview | `src/palettes.css` |
 | Inner-page styles | `src/extra.css` |
 | Page templates, titles, structured data | `src/build.py` |
 
@@ -51,20 +50,9 @@ Build with `--live` only once Southern Design has approved the site. That remove
 
 ## Colour palette
 
-The logo is Southern Design's own and is unchanged: red and white. The site's colours are set once, as named values in the `:root` block of `src/home-template.html`, and every page follows them.
+The logo is Southern Design's own and is unchanged: red and white. The site uses the "Graphite and red" palette: neutral graphite for dark areas, white pages with cool grey panels, and the logo's red as the one accent (buttons, links, the call strip at the top).
 
-The default palette is "Blued steel and bronze": blue-black dark areas, white pages with cool grey panels, and bronze for buttons and highlights. The logo's red is kept for the logo and for failure markers.
-
-A preview build adds a small "Colour palette" control at the bottom right of every page, so the options can be compared on the real pages. The choice is remembered in that browser only.
-
-| Palette | Dark areas | Page | Accent |
-|---|---|---|---|
-| Blued steel (default) | Blue-black | White, cool grey panels | Bronze |
-| Graphite and red | Neutral graphite | White, grey panels | The logo's red |
-| Ivory and red | Espresso brown | Warm ivory | The logo's red |
-| Original | Charcoal | Grey | Gold (the colours from the current Wix site) |
-
-To adopt a different one for launch, copy its values from `src/palettes.css` into the `:root` block. A `--live` build leaves out the control and the alternatives.
+The colours are set once, as named values in the `:root` block of `src/home-template.html`, and every page follows them. The earlier options (a blue-black and bronze palette, a warm ivory one, and the grey and gold taken from the Wix site) are in the Git history.
 
 ## Speed
 
@@ -72,8 +60,8 @@ On 4 October 2026 the home page scored 99 (mobile) and 97 (desktop) for performa
 
 - The font is a cut-down copy of Open Sans served from the site (`src/fonts/`), not from Google Fonts. It covers English text and common punctuation; other characters fall back to the system font.
 - The stylesheet is written into every page, so there is no separate file to wait for.
-- Google's Analytics script loads just after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so the only visits missed are ones that end within a second or two of arriving. The thank-you page loads the script at once, so a lead is never missed.
-- Header photos are requested straight from the HTML. On phones, the home page photo comes through the site's own address using a pass-through rule in `_redirects`, which only works on Netlify. On another host, replace `img/hero-m.webp` with a real file.
+- Google's Analytics script loads three seconds after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so the only visits missed are ones that end within a few seconds of arriving without a tap or scroll. The thank-you page loads the script at once, so a lead is never missed.
+- Header photos are requested straight from the HTML. On phones, header photos come through the site's own address using a pass-through rule in `_redirects`, which only works on Netlify. On another host, replace the `img/` addresses with real files.
 - Fonts, the script and logos are cached for a long time (`_headers`).
 
 The SEO score reads 69 on the preview because the preview is deliberately hidden from search engines. That is the only failing check, and it goes with a `--live` build.
@@ -93,7 +81,6 @@ The site sends data to the Google Analytics property "Southern Design website" (
 | `form_start` | Someone starts filling in the enquiry form | No |
 | `portal_click` | An existing customer clicks through to the portal | No |
 | `form_demo_submit` | The concept form is submitted (it sends nothing) | No |
-| `palette_select` | Someone picks a palette in the preview control (preview builds only) | No |
 
 Each event records where on the page it happened, and every page reports its type (guide, manufacturer, service and so on) as the content group.
 
