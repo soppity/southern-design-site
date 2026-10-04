@@ -309,6 +309,7 @@ for b in B.values():
     title = f"{b['name']} {tn} supplier in {short}"
     if len(title) > 62: title = f"{b['name']} {tn} | {short}"
     meta = f"{b['name']} {b['noun']} supplied and supported by Southern Design in {terr_h1(b['terr'])}. Request a quote or speak to a specialist."
+    if len(meta) > 160: meta = meta.replace(" Request a quote or speak to a specialist.", " Request a quote.")
     schema = [ORG, {"@type": "WebPage", "name": h1, "url": SITE + path, "about": {"@type": "Brand", "name": b["name"]}, "provider": ORG_REF}, crumbs_schema(crumbs)]
     write(path, title, meta, inner(path, crumbs, h1, lede, body, aside, plate=brand_logo(b["slug"], b["name"], d)), schema, "Manufacturer", f"{b['name']} {b['noun']} distributor {terr_abbr(b['terr'])}")
 
