@@ -12,6 +12,7 @@ for dp, dn, fn in os.walk(root):
         if len(re.findall(r"<h1[ >]", s)) != 1: h1bad.append(os.path.relpath(p, root))
         t = re.search(r"<title>(.*?)</title>", s).group(1); titles.setdefault(t, []).append(os.path.relpath(p, root))
         assert "[[" not in s, p
+        if "contact/thanks" in p: continue  # always noindex, in both modes
         pages += 1; hidden += '<meta name="robots" content="noindex' in s
 blocked = "Disallow: /" in open(os.path.join(root, "robots.txt")).read()
 assert hidden in (0, pages) and blocked == (hidden == pages), "mixed preview/live build: rebuild"

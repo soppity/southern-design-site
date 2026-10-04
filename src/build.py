@@ -3,6 +3,7 @@ from brands import BRANDS, CATS, TERR, PUMP_TYPES
 from guides import GUIDES
 from content2 import SERVICES, INDUSTRIES
 from photos import PHOTO, photo_url
+from tracking import ga_snippet
 
 # Preview is the default: every page tells search engines and AI crawlers to stay out.
 # Build with --live only when Southern Design has approved the site for launch.
@@ -116,10 +117,11 @@ def footer(depth):
 
 def full_title(t): return t if "Southern Design" in t or len(t) > 46 else t + " | Southern Design"
 
-def write(path, title, desc, body, schema, kind, query, depth=None):
+def write(path, title, desc, body, schema, kind, query, depth=None, noindex=False):
     depth = path.count("/") if depth is None else depth
     canon = SITE + path
     t = full_title(title)
+    robots = '\n<meta name="robots" content="noindex, nofollow">' if noindex else ROBOTS_META
     graph = {"@context": "https://schema.org", "@graph": schema}
     og_image = ""
     if path in PHOTO:
@@ -128,7 +130,7 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">{ROBOTS_META}
+<meta name="viewport" content="width=device-width, initial-scale=1">{robots}{ga_snippet(kind)}
 <title>{esc(t)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canon}">
@@ -154,7 +156,8 @@ def write(path, title, desc, body, schema, kind, query, depth=None):
 '''
     os.makedirs(os.path.join(OUT, path), exist_ok=True)
     open(os.path.join(OUT, path, "index.html"), "w").write(doc)
-    PAGES.append(dict(url="/" + path, kind=kind, query=query, title=t, description=desc))
+    if not noindex:  # utility pages stay out of the sitemap and the page map
+        PAGES.append(dict(url="/" + path, kind=kind, query=query, title=t, description=desc))
 
 LOGO_ALT = {s: "Pentair logo, covering Aurora, Myers, Fairbanks Nijhuis and Aplex" for s in ("aplex", "aurora", "fairbanks", "myers")}
 LOGO_ALT["pmv"] = "Flowserve PMV Positioners logo"
@@ -376,6 +379,18 @@ body = f'''<div class="contact-grid">{form_html}
 </div></div>'''
 write(path, "Request a Quote or Service | Southern Design", "Request a quote for a pump, seal or valve, arrange a repair, or ask a reliability specialist for help. Call 877-917-8677 if equipment is down.",
       inner(path, crumbs, "Tell us what you need", f'Six fields. It goes to the specialist for your state, not a general inbox. If equipment is down, call <a href="tel:{TEL}">{PHONE}</a>.', body, ""), [ORG, {"@type": "ContactPage", "url": SITE + path}, crumbs_schema(crumbs)], "Contact", "Southern Design contact")
+
+# Thank-you page: the live enquiry form redirects here after a successful submission.
+# site.js counts a lead (generate_lead) when this page loads, so it must only be reached that way.
+path = "contact/thanks/"; crumbs = HOME_C + [("Contact", "contact/"), ("Request received", path)]
+body = f'''<div class="prose">
+<h2>What happens next</h2>
+<ol><li>Your request goes to the specialist for your state.</li><li>They call or email you back, usually within one working day.</li><li>You get a quote with a lead time, or a visit to find the cause.</li></ol>
+<p>If equipment is down, do not wait for us. Call <a href="tel:{TEL}">{PHONE}</a>.</p>
+<h2>While you wait</h2>
+''' + blocks([[f"[[problems/{g['slug']}/|{g['h1']}]]" for g in GUIDES[:4]]], 2) + "</div>"
+write(path, "Request received | Southern Design", "Your request has been sent to Southern Design.",
+      inner(path, crumbs, "Request received", "Thank you. A specialist will be in touch.", body, ""), [ORG, crumbs_schema(crumbs)], "Thank you", "", noindex=True)
 
 # ---------- home
 m = home_main

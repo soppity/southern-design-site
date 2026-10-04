@@ -47,6 +47,31 @@ This keeps a preview out of search results. It does not stop someone with the li
 
 Build with `--live` only once Southern Design has approved the site. That removes all three and restores the launch `robots.txt` with the sitemap.
 
+## Tracking
+
+The site sends data to the Google Analytics property "Southern Design website" (account "Southern Design", under patrick@wearelucid.uk). The measurement ID is in `src/tracking.py`; clear it to build with no analytics. Advertising signals are switched off, and nothing a visitor types (name, email, phone) is sent.
+
+| Event | Fires when | Counts as a lead |
+|---|---|---|
+| `generate_lead` | The thank-you page `contact/thanks/` loads after a real form submission | Yes |
+| `phone_call_click` | Someone clicks or taps any phone number | Yes |
+| `email_click` | Someone clicks the email address | No |
+| `quote_cta_click` | Someone clicks a "Request a quote" style button | No |
+| `form_start` | Someone starts filling in the enquiry form | No |
+| `portal_click` | An existing customer clicks through to the portal | No |
+| `form_demo_submit` | The concept form is submitted (it sends nothing) | No |
+
+Each event records where on the page it happened, and every page reports its type (guide, manufacturer, service and so on) as the content group.
+
+The first place a visitor came from (source, medium, campaign, landing page) is stored in their browser and added to the enquiry form as hidden fields, so each lead can carry its source into the CRM.
+
+To finish before launch:
+
+- Point the real enquiry form (a GoHighLevel embed is the plan) at `contact/thanks/` as its redirect after submission. Until then no form leads are counted.
+- Phone clicks show intent, not completed calls. To count and record actual calls, put a call-tracking number that forwards to 877-917-8677 on the site: change `PHONE` and `TEL` at the top of `src/build.py`.
+- Add a privacy policy page that mentions Google Analytics.
+- For a before-and-after comparison, the same measurement ID needs adding to the current Wix site (Wix has a Google Analytics field under Marketing Integrations). That needs Southern Design's Wix login.
+
 ## Hosting
 
 Publish the `site/` folder. `_redirects` and `_headers` are in Netlify / Cloudflare Pages format.
