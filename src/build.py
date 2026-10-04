@@ -31,13 +31,14 @@ def page_css(depth): return FONT_CSS.replace("ASSETS", pre(depth) + "assets/") +
 # On phones the home page photo comes through this site's own address (a pass-through rule in _redirects), which saves a second connection.
 HERO = "photo-1509390288171-ce2088f7d08e"
 HERO_DESKTOP = f"https://images.unsplash.com/{HERO}?auto=format&fit=crop&w=1800&q=60"
-HERO_MOBILE_SRC = f"https://images.unsplash.com/{HERO}?fit=crop&w=640&q=50&fm=webp"
+HERO_MOBILE_SRC = f"https://images.unsplash.com/{HERO}?fit=crop&w=600&q=40&fm=webp"
 def preloads(path, depth):
     if path == "":
         return (f'\n<link rel="preload" as="image" href="img/hero-m.webp" media="(max-width: 720px)" fetchpriority="high">'
                 f'\n<link rel="preload" as="image" href="{esc(HERO_DESKTOP)}" media="(min-width: 721px)" fetchpriority="high">')
     if path in PHOTO:
-        return f'\n<link rel="preload" as="image" href="{esc(photo_url(PHOTO[path][0], 1800))}" media="(min-width: 721px)" fetchpriority="high">'
+        return (f'\n<link rel="preload" as="image" href="{pre(depth)}img/m/photo-{PHOTO[path][0]}" media="(max-width: 720px)" fetchpriority="high">'
+                f'\n<link rel="preload" as="image" href="{esc(photo_url(PHOTO[path][0], 1800))}" media="(min-width: 721px)" fetchpriority="high">')
     return ""
 def ver(name): return hashlib.md5(open(name, "rb").read()).hexdigest()[:8]
 V_JS, V_LOGO = ver("site.js"), ver("logo.svg")
@@ -195,11 +196,20 @@ def write(path, title, desc, body, schema, kind, query, depth=None, noindex=Fals
 LOGO_ALT = {s: "Pentair logo, covering Aurora, Myers, Fairbanks Nijhuis and Aplex" for s in ("aplex", "aurora", "fairbanks", "myers")}
 LOGO_ALT["pmv"] = "Flowserve PMV Positioners logo"
 
+def logo_size(f):
+    """width and height attributes for a logo file, so the page does not shift when it loads."""
+    try:
+        from PIL import Image
+        w, h = Image.open(f).size
+        return f' width="{w}" height="{h}"'
+    except Exception:
+        return ""
+
 def brand_logo(slug, name, depth):
     """Logo plate for a manufacturer page, if a logo file exists in src/logos/."""
     for ext in ("svg", "png", "webp", "jpg"):
         if os.path.exists(f"logos/{slug}.{ext}"):
-            return f'<div class="brand-plate"><img src="{pre(depth)}assets/brands/{slug}.{ext}" alt="{esc(LOGO_ALT.get(slug, name + " logo"))}"></div>'
+            return f'<div class="brand-plate"><img src="{pre(depth)}assets/brands/{slug}.{ext}" alt="{esc(LOGO_ALT.get(slug, name + " logo"))}"{logo_size(f"logos/{slug}.{ext}")}></div>'
     return ""
 
 def inner(path, crumbs, h1, lede, main_html, aside_html, extra_head="", plate=""):
@@ -210,7 +220,7 @@ def inner(path, crumbs, h1, lede, main_html, aside_html, extra_head="", plate=""
     if path in PHOTO:
         pid = PHOTO[path][0]
         cls += " has-photo"
-        style = f' style="--photo: url(\'{photo_url(pid, 1800)}\'); --photo-sm: url(\'{photo_url(pid, 900)}\')"'
+        style = f' style="--photo: url(\'{photo_url(pid, 1800)}\'); --photo-sm: url(\'{pre(depth)}img/m/photo-{pid}\')"'
     return f'''<main id="main">
 <div class="{cls}"{style}><div class="wrap{" with-plate" if plate else ""}">
   <div>
@@ -499,6 +509,8 @@ Sitemap: {SITE}sitemap.xml
 """)
 open(OUT + "/_redirects", "w").write(f"""# The phone-sized home page photo, passed through from Unsplash so it loads from this site's own address (Netlify).
 /img/hero-m.webp        {HERO_MOBILE_SRC}  200
+# Phone-sized header photos for inner pages, passed through the same way.
+/img/m/:photo           https://images.unsplash.com/:photo?fit=crop&w=640&h=420&q=50&fm=webp  200
 
 # Old Wix URLs to new pages (301). Format: Netlify / Cloudflare Pages.
 /about-sdm              /about/                            301
