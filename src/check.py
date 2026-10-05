@@ -24,3 +24,7 @@ print("mode:", "PREVIEW, hidden from search engines" if blocked else "LIVE, open
 print("internal links checked:", n, "broken:", bad[:10])
 print("pages without exactly one h1:", h1bad)
 print("duplicate titles:", {k: v for k, v in titles.items() if len(v) > 1})
+# the search index: every entry needs a title and must point at a page that exists
+idx = json.load(open(os.path.join(root, "assets", "search.json")))
+lost = [e["u"] for e in idx if not e["t"] or (not re.match(r"(https?|tel):", e["u"]) and not os.path.exists(os.path.join(root, e["u"], "index.html")))]
+print("search index:", len(idx), "entries, pointing at missing pages:", lost)

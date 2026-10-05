@@ -12,7 +12,7 @@ Taken on 4 October 2026, while the Wix site was live at southerndesign.com and t
 | Perplexity, 3 "who does this near me" questions | Not named or cited in any, including "pump distributor in El Dorado Arkansas" |
 | Current site speed score, mobile | 67 of 100, main content visible after 8.8 seconds |
 | Current site speed score, desktop | 91 of 100 |
-| New site speed score, same day | 99 mobile, 97 desktop (home page, after the speed work) |
+| New site speed score, same day | 97 mobile, 100 desktop (home page, after the speed work); inner pages 100 |
 | Real-visitor speed data from Chrome | None: Google has too few visits on record to report any |
 
 The 66 searches are 8 pump problems, 13 local supplier and repair searches, 6 services, 7 industries and 32 manufacturer lines. The sites that came up most often in the top three for local and service searches were cummins-wagner.com (6 of 19), tencarva.com (5), cbeuptime.com (3) and carotek.com (3).
