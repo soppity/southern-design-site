@@ -6,7 +6,7 @@ A redesign concept for [southerndesign.com](https://www.southerndesign.com/), pr
 
 | Path | What it is |
 |---|---|
-| `site/` | The built site: 89 static HTML pages plus a thank-you page, ready to host. Open `site/index.html` to browse it locally. |
+| `site/` | The built site: 90 static HTML pages plus a thank-you page, ready to host. Open `site/index.html` to browse it locally. |
 | `site/seo-page-map.csv` | Every page with its target search, title and description. |
 | `site/sitemap.xml`, `site/robots.txt`, `site/_redirects`, `site/_headers` | Sitemap, crawler rules, redirects from the five old Wix addresses, and the preview's do-not-index header. |
 | `src/` | The generator that builds `site/`. |
@@ -22,6 +22,7 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 | Problem guides | `src/guides.py` |
 | Service and industry pages | `src/content2.py` |
 | Header photos on inner pages | `src/photos.py` |
+| Words the search box matches (symptoms, other spellings of a brand) | `src/search.py` |
 | Manufacturer logos (one file per manufacturer, named by its page slug) | `src/logos/` |
 | Home page layout, base styles and the colour palette (the `:root` block) | `src/home-template.html` |
 | Inner-page styles | `src/extra.css` |
@@ -31,7 +32,7 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 cd src
 python3 build.py           # rebuilds ../site as a preview, hidden from search engines
 python3 build.py --live    # rebuilds ../site for launch, open to search engines
-python3 check.py           # checks links, headings and structured data, and reports the mode
+python3 check.py           # checks links, headings, structured data and the search index, and reports the mode
 ```
 
 Python 3 only, no packages to install.
@@ -58,6 +59,17 @@ Buyers search by state, and Southern Design's lines differ by state, so each of 
 
 They are generated from `src/brands.py`, so changing which territories a manufacturer is supplied in updates them. The repair pages each carry a marked gap for detail only Southern Design can give.
 
+## Search
+
+Every page has a search box: a magnifier in the header, and a box in the home page header area. A visitor types a symptom ("seal leaking"), a manufacturer ("Ebara") or a product ("gear pump") and gets the matching pages as they type. It tolerates a typo, plurals, and words typed in any order.
+
+- **What it searches.** A small index built with the site (`site/assets/search.json`, under 100 entries): the nine guides, 32 manufacturers, product types, services, industries and every location page. It is written by `src/search.py` from the same content as the pages, so it never goes out of date.
+- **Words buyers use.** `SAID_AS` in `src/search.py` lists words people type that a page may not use: symptoms ("noisy", "banging"), abbreviations ("AODD", "VFD"), and other spellings of a brand ("claval", "FTI"). Add a word only where the page really answers it.
+- **Nothing found.** The box offers to send the search to Southern Design: the link opens the enquiry form with the search already in the make, model or part number field. Every result list ends with the same offer. Part numbers and models the site has no page for become enquiries this way.
+- **Breakdowns.** Searches such as "pump down" or "emergency" show the phone number first.
+- **The search page** (`search/`) lists everything by type. It is also where the search box sends a visitor whose browser has JavaScript switched off.
+- **Where it runs.** In the visitor's browser. There is no search server or outside service, so it works on any host and costs nothing.
+
 ## Colour palette
 
 The logo is Southern Design's own and is unchanged: red and white. The site uses the "Graphite and red" palette: neutral graphite for dark areas, white pages with cool grey panels, and the logo's red as the one accent (buttons, links, the call strip at the top).
@@ -73,6 +85,7 @@ On 4 October 2026 the home page scored 97 (mobile) and 100 (desktop) for perform
 - Google's Analytics script loads three seconds after the page has finished, or at the visitor's first tap, key press or scroll. Events are queued from the start, so the only visits missed are ones that end within a few seconds of arriving without a tap or scroll. The thank-you page loads the script at once, so a lead is never missed.
 - Header photos are requested straight from the HTML. On phones, header photos come through the site's own address using a pass-through rule in `_redirects`, which only works on Netlify. On another host, replace the `img/` addresses with real files.
 - Fonts, the script and logos are cached for a long time (`_headers`).
+- The search index is only fetched when someone first uses a search box, so it adds nothing to the first load.
 
 The SEO score reads 69 on the preview because the preview is deliberately hidden from search engines. That is the only failing check, and it goes with a `--live` build.
 
@@ -80,7 +93,7 @@ Netlify adds a "Powered by Netlify" badge to free-plan sites. It is a small extr
 
 ## Tracking
 
-The site sends data to the Google Analytics property "Southern Design website" (account "Southern Design", under patrick@wearelucid.uk). The measurement ID is in `src/tracking.py`; clear it to build with no analytics. Advertising signals are switched off, and nothing a visitor types (name, email, phone) is sent.
+The site sends data to the Google Analytics property "Southern Design website" (account "Southern Design", under patrick@wearelucid.uk). The measurement ID is in `src/tracking.py`; clear it to build with no analytics. Advertising signals are switched off, and nothing a visitor types into the enquiry form (name, email, phone) is sent. Search terms are sent, except any that look like an email address or a phone number.
 
 | Event | Fires when | Counts as a lead |
 |---|---|---|
@@ -91,8 +104,13 @@ The site sends data to the Google Analytics property "Southern Design website" (
 | `form_start` | Someone starts filling in the enquiry form | No |
 | `portal_click` | An existing customer clicks through to the portal | No |
 | `form_demo_submit` | The concept form is submitted (it sends nothing) | No |
+| `search` | Someone searches the site and pauses, picks a result or presses Enter. Carries the search term | No |
+| `search_no_results` | A search finds nothing. Carries the search term | No |
+| `search_result_click` | Someone picks a search result. Carries the term and the result chosen | No |
 
 Each event records where on the page it happened, and every page reports its type (guide, manufacturer, service and so on) as the content group.
+
+The search events show what buyers are looking for in their own words. `search_no_results` is the list of things they wanted that the site has no page for: models, part numbers, brands not carried. In Analytics, the term is in the built-in "Search term" dimension. A phone number or "Ask us" link clicked inside the search results counts as `phone_call_click` or `quote_cta_click` with the location `search`.
 
 The first place a visitor came from (source, medium, campaign, landing page) is stored in their browser and added to the enquiry form as hidden fields, so each lead can carry its source into the CRM.
 

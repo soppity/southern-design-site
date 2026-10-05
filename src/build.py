@@ -4,6 +4,7 @@ from guides import GUIDES
 from content2 import SERVICES, INDUSTRIES
 from photos import PHOTO, photo_url
 from tracking import ga_snippet
+from search import build_index
 
 # Preview is the default: every page tells search engines and AI crawlers to stay out.
 # Build with --live only when Southern Design has approved the site for launch.
@@ -65,7 +66,7 @@ def blocks(bl, depth):
 
 def table(t, depth):
     cap, head, rows = t
-    return (f'<h2>{cap}</h2>\n<div class="tbl-wrap"><table class="tbl"><thead><tr>' + "".join(f'<th scope="col">{h}</th>' for h in head) + "</tr></thead><tbody>"
+    return (f'<h2>{cap}</h2>\n<div class="tbl-wrap" tabindex="0" role="region" aria-label="{esc(cap)}"><table class="tbl"><thead><tr>' + "".join(f'<th scope="col">{h}</th>' for h in head) + "</tr></thead><tbody>"
             + "".join("<tr>" + "".join(f"<td>{links(c, depth)}</td>" for c in r) + "</tr>" for r in rows) + "</tbody></table></div>")
 
 def faq_html(faq, depth):
@@ -100,6 +101,21 @@ def faq_schema(faq):
 
 NAV = [("Products", "products/"), ("Services", "services/"), ("Pump problems", "problems/"), ("Industries", "industries/"), ("Locations", "locations/")]
 
+ICON_SEARCH = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>'
+
+def search_form(place, depth):
+    """A search box. place: "hero" (home page), "head" (the panel under the header) or "page" (the search page).
+    Without JavaScript it is a plain form that opens the search page, which lists everything."""
+    return f'''<form class="search" role="search" action="{href(depth, "search/")}" method="get" data-search="{place}" data-index="{pre(depth)}assets/search.json" data-root="{pre(depth)}">
+  <label for="q-{place}">Search by problem, manufacturer or product</label>
+  <div class="search-box">
+    <input id="q-{place}" name="q" type="search" placeholder="e.g. seal leaking, Ebara" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search">
+    <button class="search-go" type="submit" aria-label="Search">{ICON_SEARCH}</button>
+  </div>
+  <div class="search-pop" hidden></div>
+  <p class="vh" role="status"></p>
+</form>'''
+
 def header(depth, here=""):
     nav = "".join(f'<a href="{href(depth, p)}"{" aria-current=\"page\"" if here.startswith(p) else ""}>{n}</a>' for n, p in NAV)
     return f'''<a class="skip" href="#main">Skip to content</a>
@@ -113,9 +129,12 @@ def header(depth, here=""):
     <img class="brand-mark" src="{pre(depth)}assets/logo.svg?v={V_LOGO}" alt="" width="50" height="62">
     <span class="brand-name"><b>SOUTHERN</b> DESIGN<span class="brand-sub">Redefining Reliability</span></span>
   </a>
+  <a class="search-btn in-bar" href="{href(depth, "search/")}" aria-label="Search">{ICON_SEARCH}</a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
-  <nav class="nav" id="nav" aria-label="Main">{nav}<a class="btn btn-signal" href="{href(depth, "contact/")}">Request a quote</a></nav>
-</div></header>'''
+  <nav class="nav" id="nav" aria-label="Main">{nav}<a class="search-btn" href="{href(depth, "search/")}" aria-label="Search">{ICON_SEARCH}</a><a class="btn btn-signal" href="{href(depth, "contact/")}">Request a quote</a></nav>
+</div>
+<div class="search-panel" id="search-panel" hidden><div class="wrap"><div class="search-dock">{search_form("head", depth)}<button class="search-close" type="button" aria-label="Close search"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div></div></div>
+</header>'''
 
 def footer(depth):
     h = lambda p: href(depth, p)
@@ -542,12 +561,23 @@ body = f'''<div class="prose">
 write(path, "Request received | Southern Design", "Your request has been sent to Southern Design.",
       inner(path, crumbs, "Request received", "Thank you. A specialist will be in touch.", body, ""), [ORG, crumbs_schema(crumbs)], "Thank you", "", noindex=True)
 
+# ---------- search: the index the search boxes use, and a page that lists everything
+INDEX = build_index(B, GUIDES, SERVICES, INDUSTRIES, CATS, CAT_COPY, TERR, LOC, PUMP_TYPES, terr_tag, st_members, PHONE)
+path = "search/"; crumbs = HOME_C + [("Search", path)]
+body = search_form("page", 1) + '\n<div class="browse">'
+for head, kind in [("Pump problems", "Problem guide"), ("Manufacturers", "Manufacturer"), ("Products", "Product"), ("Services", "Service"), ("Industries", "Industry"), ("Locations", "Location")]:
+    body += f'\n<h2>{head}</h2>\n<ul class="chips">' + "".join(f'<li><a href="{href(1, e["u"])}">{esc(e["t"])}</a></li>' for e in INDEX if e["k"] == kind and e["browse"]) + "</ul>"
+body += "\n</div>"
+write(path, "Search Southern Design: Problems, Manufacturers, Products", "Search Southern Design by pump problem, manufacturer or product, or browse every guide, manufacturer, product, service, industry and location.",
+      inner(path, crumbs, "Find it fast", "Type what the pump is doing, the name on the nameplate, or what you need. Or browse everything below.", body, ""), [ORG, crumbs_schema(crumbs)], "Search", "")
+
 # ---------- home
 m = home_main
 def rep(old, new, count=1):
     global m
     assert m.count(old) == count, (m.count(old), old[:60]); m = m.replace(old, new)
 rep("28 manufacturers on the line card", "32 manufacturers represented")
+rep('<div class="hero-cta">', search_form("hero", 0) + '\n      <div class="hero-cta">')
 a = m.index('<div class="tabs" role="tablist"'); b = m.index("</p>", m.index('<p class="linecard-note">')) + 4
 def lc(ms): return "".join(f'<li><b><a href="manufacturers/{x["slug"]}/index.html">{x["name"]}</a></b><small>{x["line"]} <em>{terr_tag(x["terr"])}</em></small></li>' for x in ms)
 t1 = [x for x in B.values() if x["cat"] in ("pumps", "seals", "motors")]; t2 = [x for x in B.values() if x["cat"] == "reliability"]; t3 = [x for x in B.values() if x["cat"] == "valves"] + [B["richter"]]
@@ -586,6 +616,7 @@ os.makedirs(OUT + "/assets/fonts")
 for f in ("open-sans.woff2", "open-sans-italic.woff2", "OFL.txt"): shutil.copy("fonts/" + f, OUT + "/assets/fonts/" + f)
 shutil.copy("logo.svg", OUT + "/assets/logo.svg")
 shutil.copy("site.js", OUT + "/assets/site.js")
+json.dump([{k: e[k] for k in "tkushw"} for e in INDEX], open(OUT + "/assets/search.json", "w"), ensure_ascii=False, separators=(",", ":"))
 if os.path.isdir("logos") and os.listdir("logos"):
     shutil.copytree("logos", OUT + "/assets/brands")
 
@@ -631,5 +662,6 @@ with open(OUT + "/seo-page-map.csv", "w", newline="") as f:
 from collections import Counter
 print("LIVE build: open to search engines" if LIVE else "PREVIEW build: hidden from search engines (use --live for launch)")
 print(len(PAGES), "pages", dict(Counter(p["kind"] for p in PAGES)))
+print("search index:", len(INDEX), "entries,", os.path.getsize(OUT + "/assets/search.json"), "bytes")
 print("long titles:", [(len(p["title"]), p["url"]) for p in PAGES if len(p["title"]) > 65])
 print("long metas:", [(len(p["description"]), p["url"]) for p in PAGES if len(p["description"]) > 165])
