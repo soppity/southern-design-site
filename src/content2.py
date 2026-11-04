@@ -1,7 +1,7 @@
 SERVICES = [
 dict(slug="pump-repair", nav="Pump repair",
  h1="Industrial pump repair, with the cause written down",
- title="Industrial Pump Repair | Arkansas and Mid-Atlantic",
+ title="Industrial Pump Repair Shop | Arkansas and Mid-Atlantic",
  meta="Precision repair for pumps and rotating equipment, including mag-drive and sealed pumps, with root cause failure analysis so the same failure does not return.",
  query="industrial pump repair Arkansas / Maryland / Virginia",
  lede="Precision repair for pumps and other rotating equipment, including magnetic drive and mechanically sealed pumps. Every repair comes with the cause of failure, so you know what to change, not just what was replaced.",

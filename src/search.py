@@ -6,6 +6,7 @@ plus words that are matched but never shown: what the page covers, and the words
 
 build.py writes the result to site/assets/search.json. site.js fetches it the first time a search box is used."""
 import re
+from pumptypes import PUMP_PAGES
 
 # Words buyers type that the page itself may not use. Only add a word where the page really answers it.
 SAID_AS = {
@@ -14,6 +15,7 @@ SAID_AS = {
  "pump-cavitation": "noise noisy loud gravel marbles rattling crackling npsh suction vibration pitting impeller damage",
  "pump-running-off-curve": "bep best efficiency point oversized throttled low flow high flow vibration recirculation overload amps motor tripping",
  "pump-bearing-failure": "bearing hot overheating temperature noisy bearing oil grease lubrication contamination vibration",
+ "npsh-calculation": "npsh npsha npshr net positive suction head available required suction pressure vapor pressure margin cavitation boiling hot liquid",
  "calculate-pump-mtbf": "mtbf mean time between failures bad actors kpi metrics failure rate",
  "water-hammer-pulsation": "banging bang knocking hammering surge pulsation pipe shaking vibration slam pressure spike",
  "mag-drive-pump-failure": "magnetic drive magdrive sealless decoupling decoupled dry run dry running no flow overheating melted",
@@ -104,8 +106,14 @@ def build_index(B, GUIDES, SERVICES, INDUSTRIES, CATS, CAT_COPY, TERR, LOC, PUMP
 
     for c, (cslug, cname, cnav) in CATS.items():
         add(cnav, "Product", f"products/{cslug}/", CAT_COPY[c][1], cname + " supplier distributor", " ".join(b["name"] for b in B.values() if b["cat"] == c))
+    PT = {p["pt"]: p for p in PUMP_PAGES}
     for pt, slugs in PUMP_TYPES:
-        add(pt, "Pump type", "products/pumps/", "From " + ", ".join(B[s]["name"] for s in slugs), PUMP_TYPE_WORDS.get(pt, ""), browse=False)
+        p = PT.get(pt)
+        if p:
+            add(p["nav"], "Pump type", f"products/pumps/{p['slug']}/", "From " + ", ".join(B[s]["name"] for s in slugs),
+                " ".join([pt, p["query"].replace("/", " "), PUMP_TYPE_WORDS.get(pt, "")]), _plain([p["how"], p["good"], [q for q, _ in p["faq"]]]))
+        else:
+            add(pt, "Pump type", "products/pumps/", "From " + ", ".join(B[s]["name"] for s in slugs), PUMP_TYPE_WORDS.get(pt, ""), browse=False)
 
     for s in SERVICES:
         add(s["nav"], "Service", f"services/{s['slug']}/", s["lede"], " ".join([s["h1"], SAID_AS.get(s["slug"], "")]),

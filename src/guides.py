@@ -4,9 +4,9 @@ GUIDES = [
 dict(
  slug="mechanical-seal-keeps-failing",
  h1="Why does my mechanical seal keep failing?",
- title="Why Mechanical Seals Keep Failing: Causes and Fixes",
+ title="Pump Seal Leaking? Why Mechanical Seals Keep Failing",
  meta="A pump seal that fails again and again is reacting to dry running, a failed flush, shaft movement or the wrong materials. How to read the seal and fix it.",
- query="why does my mechanical seal keep failing",
+ query="pump seal leaking / mechanical seal failure",
  nav="Mechanical seal keeps failing",
  short="A mechanical seal that fails repeatedly is almost always reacting to something else in the pump or the system: dry running, a flush that is not reaching the faces, shaft movement from running away from the pump's best efficiency point, or materials that do not suit the fluid. Replacing the seal treats the symptom. Reading the failed seal faces tells you which cause to fix.",
  table=("What the failed seal is telling you", ["What you see", "Likely cause", "Check"], [
@@ -69,7 +69,7 @@ dict(
    ["Suction tank level too low, or the pump lifting from too far below.", "A clogged suction strainer or a partly closed suction valve.", "Suction pipe that is too long, too small or has too many fittings.", "Liquid that is hotter than the design assumed. Vapor pressure rises with temperature.", "Running too far right on the curve. NPSHr climbs as flow rises.", "A speed increase without rechecking suction conditions."],
   ]),
   ("NPSH in one paragraph", [
-   "NPSHa is the pressure pushing liquid into the pump, expressed as head: the absolute pressure on the liquid surface, plus the height of the liquid above the pump centerline (minus if the pump lifts), minus friction losses in the suction line, minus the liquid's vapor pressure. It has to exceed the NPSHr on the pump curve with margin. The NPSHr printed on most curves is the point where the pump has already lost 3% of its head, so a pump running exactly at NPSHr is already cavitating.",
+   "NPSHa is the pressure pushing liquid into the pump, expressed as head: the absolute pressure on the liquid surface, plus the height of the liquid above the pump centerline (minus if the pump lifts), minus friction losses in the suction line, minus the liquid's vapor pressure. It has to exceed the NPSHr on the pump curve with margin. The NPSHr printed on most curves is the point where the pump has already lost 3% of its head, so a pump running exactly at NPSHr is already cavitating. See [[problems/npsh-calculation/|how to calculate NPSH available]], with a worked example.",
   ]),
   ("How to fix it", [
    ["Raise the liquid level or lower the pump.", "Clean the suction strainer and open suction valves fully.", "Never throttle the suction valve to control flow. Control on the discharge.", "Shorten or enlarge the suction pipe, and give the pump a straight run into the inlet.", "Cool the liquid if the process allows.", "Move the operating point left by throttling the discharge or slowing the pump with a variable frequency drive.", "If the system cannot change, select a pump with a lower NPSHr."],
@@ -88,11 +88,55 @@ dict(
  brands=["flexicraft", "load-controls", "mri"],
 ),
 dict(
+ slug="npsh-calculation",
+ h1="NPSH explained: how to calculate NPSH available",
+ title="NPSH Calculation: How to Work Out NPSH Available",
+ meta="NPSHa is atmospheric head plus static head, minus friction and vapor pressure. The formula, a worked example, what NPSHr means and how much margin to leave.",
+ query="npsh / npsh calculation",
+ nav="NPSH calculation",
+ short="Net positive suction head available (NPSHa) is how much pressure, above the liquid's vapor pressure, pushes liquid into the pump, expressed in feet of head. Work it out as the absolute pressure on the liquid surface, plus the height of the liquid above the pump centerline, minus friction in the suction line, minus the vapor pressure, all converted to head. It must exceed the NPSH the pump requires (NPSHr) with margin, or the pump cavitates.",
+ table=("Worked example: water from an open tank", ["Term", "At 68\u00b0F", "At 180\u00b0F"], [
+  ["Atmospheric pressure, as head (14.7 psia x 2.31 / specific gravity)", "+34.0 ft", "+35.0 ft"],
+  ["Liquid surface above pump centerline", "+10.0 ft", "+10.0 ft"],
+  ["Friction loss in the suction line", "\u22123.0 ft", "\u22123.0 ft"],
+  ["Vapor pressure, as head (0.34 psia cold, 7.5 psia hot)", "\u22120.8 ft", "\u221217.9 ft"],
+  ["<b>NPSH available</b>", "<b>40.2 ft</b>", "<b>24.1 ft</b>"],
+ ]),
+ sections=[
+  ("The formula", [
+   "NPSHa = Ha + Hs \u2212 Hf \u2212 Hvp",
+   ["<b>Ha</b>: absolute pressure on the liquid surface, as head. For an open tank that is atmospheric pressure. For a closed vessel, use the vessel's absolute pressure.", "<b>Hs</b>: height of the liquid surface above the pump centerline. It is negative when the pump lifts from below.", "<b>Hf</b>: friction losses in the suction pipe, fittings, valves and strainer at the flow you are checking.", "<b>Hvp</b>: the liquid's vapor pressure at the pumping temperature, as head."],
+   "Convert pressure to head with: feet = psi x 2.31 / specific gravity. Use absolute pressures throughout.",
+  ]),
+  ("What the worked example shows", [
+   "The same tank, pipe and pump lose about 16 feet of NPSHa when the water is hot, because vapor pressure climbs steeply with temperature. Hot condensate, boiler feed and liquids near their boiling point are where NPSH problems show up first. Altitude matters too: atmospheric head falls by roughly a foot for every 1,000 feet of elevation.",
+  ]),
+  ("What NPSHr means", [
+   "NPSHr (NPSH required) is printed on the pump curve and rises as flow rises. It is measured as the point where the pump has already lost 3% of its head to cavitation, so it is not a safe operating limit. A pump running with NPSHa equal to NPSHr is already cavitating.",
+  ]),
+  ("How much margin to leave", [
+   "There is no single figure. The Hydraulic Institute's guidance (ANSI/HI 9.6.1) recommends a margin ratio of NPSHa to NPSHr that depends on the application, from about 1.1 for many general duties up to 2 or more for high suction energy pumps and critical services. Check the margin at the highest flow the pump will see, not only at the design point.",
+  ]),
+  ("If the margin is too small", [
+   ["Raise the liquid level or lower the pump.", "Shorten or enlarge the suction line and remove unnecessary fittings.", "Keep suction strainers clean and suction valves fully open.", "Cool the liquid, or pressurize the vessel, if the process allows.", "Reduce the flow, or slow the pump with a variable frequency drive. NPSHr falls as flow falls.", "Choose a pump with a lower NPSHr, such as a larger, slower pump or one with an inducer."],
+   "See [[problems/pump-cavitation/|pump cavitation]] for the symptoms, and [[services/hydraulic-system-analysis/|hydraulic system analysis]] when you want the options compared before anything is changed.",
+  ]),
+ ],
+ faq=[
+  ("What is the difference between NPSHa and NPSHr?", "NPSHa is what the system supplies to the pump. NPSHr is what the pump needs at a given flow, from the manufacturer's curve. NPSHa must be the larger, with margin."),
+  ("Can NPSH available be negative?", "Not in practice. If the calculation gives zero or less, the liquid would boil in the suction line before it reached the pump."),
+  ("Does NPSH apply to positive displacement pumps?", "Yes, though it is often stated as net positive inlet pressure (NPIP). Reciprocating pumps also need an allowance for acceleration head, because the liquid in the suction line speeds up and slows down on every stroke."),
+  ("Why does NPSHa change with flow?", "Friction in the suction line rises with flow, so NPSHa falls as flow rises while NPSHr climbs. The two lines meet at the flow where cavitation begins."),
+ ],
+ services=["hydraulic-system-analysis", "field-service", "pump-repair"],
+ brands=["flexicraft", "toshiba", "load-controls"],
+),
+dict(
  slug="pump-running-off-curve",
  h1="Is your pump running off its curve? How to tell and what to do",
- title="Pump Running Off Its Curve: How to Tell and What to Do",
+ title="Pump Curve and BEP: Is Your Pump Running Off Its Curve?",
  meta="A pump run far from its best efficiency point bends its shaft and wears out seals and bearings. How to find the operating point and bring it back.",
- query="pump operating away from best efficiency point",
+ query="pump curve / best efficiency point",
  nav="Pump running off its curve",
  short="A centrifugal pump is designed to run near its best efficiency point (BEP). Run it well to the left or right of that point and the hydraulic forces on the impeller rise sharply, bending the shaft and overloading the seal and bearings. If the same pump keeps needing seals or bearings, find out where it actually operates before replacing parts again.",
  table=("Left or right of best efficiency point", ["Where it runs", "What you notice", "Usual reasons"], [
@@ -103,6 +147,9 @@ dict(
   ("How to find the operating point", [
    ("ol", ["Read suction and discharge pressure at the pump.", "Convert the difference to head: feet of head = psi x 2.31 / specific gravity.", "Read flow if there is a meter, and motor amps.", "Plot the point on the manufacturer's curve for the impeller diameter and speed actually installed."]),
    "If the point sits well away from BEP, or does not sit on the curve at all, you have found something worth fixing. A point below the curve means internal wear or a wrong impeller.",
+  ]),
+  ("How to read a pump curve", [
+   "A manufacturer's curve plots flow along the bottom against several lines: the head the pump makes at each flow (one line per impeller diameter), efficiency, the power drawn, and NPSHr. Best efficiency point is the flow where the efficiency line peaks, often marked on the head line. Read the line for the impeller diameter and speed actually fitted, not the largest one on the sheet.",
   ]),
   ("How far off is too far", [
    "The Hydraulic Institute describes a preferred operating region, commonly quoted as roughly 70% to 120% of BEP flow for most centrifugal pumps. Inside it, life is governed by normal wear. Outside it, shaft deflection, recirculation and cavitation shorten the life of seals and bearings.",
@@ -171,9 +218,9 @@ dict(
 dict(
  slug="calculate-pump-mtbf",
  h1="How to calculate pump MTBF and find your bad actors",
- title="How to Calculate Pump MTBF and Find Bad Actors",
+ title="MTBF Calculation: How to Calculate Pump MTBF",
  meta="Pump MTBF is pumps in service times months, divided by failures. A worked example, what counts as a failure, and how to find the few pumps eating the budget.",
- query="how to calculate pump MTBF",
+ query="mtbf calculation / how to calculate mtbf",
  nav="Calculating pump MTBF",
  short="Pump MTBF (mean time between failures) is the number of pumps in service multiplied by the time period, divided by the number of failures in that period. A plant with 400 pumps and 160 failures in 12 months has an MTBF of 30 months. The plant-wide number shows the trend. The per-pump numbers show which few machines, the bad actors, are consuming most of the repair budget.",
  table=("Worked example", ["Input", "Value"], [
@@ -212,9 +259,9 @@ dict(
 dict(
  slug="water-hammer-pulsation",
  h1="Water hammer and pulsation in pump systems: causes and fixes",
- title="Water Hammer and Pulsation in Pump Systems: Fixes",
+ title="Water Hammer in Pipes and Pumps: Causes and Fixes",
  meta="Banging pipes, swinging gauges and broken supports come from water hammer or pump pulsation. What causes each and how dampeners, valves and drives fix them.",
- query="water hammer in pump system fix",
+ query="water hammer / water hammer in pipes",
  nav="Water hammer and pulsation",
  short="Water hammer is a pressure surge caused by liquid being stopped or started suddenly, usually by a fast-closing valve or a pump tripping. Pulsation is the rhythmic pressure swing that diaphragm, piston and other positive displacement pumps produce on every stroke. Both shake piping, break supports and damage gauges and seals. Both are fixed by slowing the change in velocity or absorbing it with a surge suppressor or pulsation dampener.",
  table=("Which one do you have?", ["What you notice", "Likely cause", "Check"], [

@@ -5,6 +5,7 @@ from content2 import SERVICES, INDUSTRIES
 from photos import PHOTO, photo_url
 from tracking import ga_snippet
 from search import build_index
+from pumptypes import PUMP_PAGES
 
 # Preview is the default: every page tells search engines and AI crawlers to stay out.
 # Build with --live only when Southern Design has approved the site for launch.
@@ -251,7 +252,14 @@ def rows(items, depth):
     return '<ul class="rows">' + "".join(f'<li><b><a href="{href(depth, p)}">{n}</a></b><span>{links(d, depth)}</span></li>' for n, p, d in items) + "</ul>"
 
 HOME_C = [("Home", "")]
-TNOUN = {"blacoh": "pulsation dampeners", "finish-thompson": "mag-drive pumps", "graco": "diaphragm pumps", "lube-it": "lubrication software", "amrri": "lubrication training", "richter": "PFA-lined pumps", "load-controls": "power monitors"}
+PT_SLUG = {p["pt"]: p["slug"] for p in PUMP_PAGES}
+def lower1(t): return t if t[:2].isupper() else t[0].lower() + t[1:]
+def pt_link(pt): return f"[[products/pumps/{PT_SLUG[pt]}/|{pt}]]" if pt in PT_SLUG else pt
+# Title nouns follow what buyers search (OpenSEO, Nov 2026): "Cla-Val valves" 4,400/mo, "Graco pumps" 1,300, "Ebara pumps" 1,000,
+# "Sulzer pumps" 1,000, "Toshiba motors" 480 and "Toshiba VFD" 260, "Finish Thompson pumps" 320, "Hisco pumps" 210, "Trico oiler" 170.
+TNOUN = {"blacoh": "pulsation dampeners", "finish-thompson": "pumps", "graco": "pumps", "lube-it": "lubrication software", "amrri": "lubrication training",
+         "richter": "PFA-lined pumps", "load-controls": "power monitors", "cla-val": "valves", "ebara": "pumps", "sulzer": "pumps and mixers",
+         "toshiba": "motors and VFDs", "trico": "oilers", "hisco": "pumps and ANSI parts", "us-seal": "mechanical seals"}
 
 # ---------- problem guides
 for g in GUIDES:
@@ -312,7 +320,7 @@ for b in B.values():
         + side_list(f"More {cat[2].lower()}", [(x["name"], f"manufacturers/{x['slug']}/") for x in B.values() if x["cat"] == b["cat"] and x is not b][:10], d)
     short = "AR, MD, VA, NC, SC" if len(b["terr"]) == 3 else terr_abbr(b["terr"])
     tn = TNOUN.get(b["slug"], b["noun"])
-    title = f"{b['name']} {tn} supplier in {short}"
+    title = f"{b['name']} {tn} distributor in {short}"
     if len(title) > 62: title = f"{b['name']} {tn} | {short}"
     meta = f"{b['name']} {b['noun']} supplied and supported by Southern Design in {terr_h1(b['terr'])}. Request a quote or speak to a specialist."
     if len(meta) > 160: meta = meta.replace(" Request a quote or speak to a specialist.", " Request a quote.")
@@ -340,7 +348,7 @@ for c, (cslug, cname, cnav) in CATS.items():
     body = ""
     members = [b for b in B.values() if b["cat"] == c]
     if c == "pumps":
-        body += table(("Pump types and who makes them", ["Pump type", "Manufacturers"], [[t, ", ".join(f"[[manufacturers/{s}/|{B[s]['name']}]]" for s in sl)] for t, sl in PUMP_TYPES]), d)
+        body += table(("Pump types and who makes them", ["Pump type", "Manufacturers"], [[pt_link(t), ", ".join(f"[[manufacturers/{s}/|{B[s]['name']}]]" for s in sl)] for t, sl in PUMP_TYPES]), d)
     if c == "valves": members = members + [B["richter"]]
     if c == "motors": members = members + [B["load-controls"]]
     if c == "seals": members = members + [B["safematic"]]
@@ -350,6 +358,27 @@ for c, (cslug, cname, cnav) in CATS.items():
     body += f"\n<h2>{cnav} by territory</h2>\n<p>Lines differ by state. See what is on the line card where you are.</p>" + terr_chips(["ar", "md", "va"], d, cslug + "/")
     write(path, title, (lede if len(lede) > 115 else lede + " Supplied across Arkansas and the Mid-Atlantic."),
           inner(path, crumbs, h1, lede, f'<div class="prose wide">{body}</div>', ""), [ORG, crumbs_schema(crumbs)], "Product category", query)
+
+# ---------- pump types: one page each (keyword research showed buyers search by pump type)
+PT_MAKERS = dict(PUMP_TYPES)
+for p in PUMP_PAGES:
+    path = f"products/pumps/{p['slug']}/"; d = 3
+    crumbs = HOME_C + [("Products", "products/"), ("Pumps", "products/pumps/"), (p["nav"], path)]
+    makers = [B[x] for x in PT_MAKERS[p["pt"]]]
+    terr = sorted({t for m in makers for t in m["terr"]}, key=["ar", "md", "va"].index)
+    body = f"<h2>How it works</h2>\n<p>{links(p['how'], d)}</p>"
+    body += "\n<h2>Where it fits</h2>\n" + blocks([p["good"]], d)
+    body += "\n<h2>Where it does not</h2>\n" + blocks([p["limits"]], d)
+    body += f"\n<h2>Who makes the {lower1(p['nav'])} we supply</h2>\n" + rows([(m["name"], f"manufacturers/{m['slug']}/", f"{m['line']} <em>{terr_tag(m['terr'])}</em>") for m in makers], d)
+    body += "\n<h2>What to send for a quote</h2>\n" + blocks([["The liquid, its temperature, and any solids or chemicals in it", "The flow and pressure (or head) you need", "What it is replacing, with the nameplate if there is one", "How it runs: continuous, batch or standby, and anything that has failed before"]], d)
+    body += "\n" + faq_html(p["faq"], d)
+    body += "\n<h2>Related pump problems</h2>\n" + blocks([[f"[[problems/{x}/|{G[x]['h1']}]]" for x in p["guides"]]], d)
+    aside = cta(d, f"Need {lower1(p['nav'])}?", "Send the duty or the nameplate. We size it, quote it and tell you the lead time.", "Request a quote", "quote", p["nav"]) \
+        + side_list("Other pump types", [(x["nav"], f"products/pumps/{x['slug']}/") for x in PUMP_PAGES if x is not p], d)
+    short = "AR, MD, VA, NC, SC" if len(terr) == 3 else terr_abbr(terr)
+    title = p["title"] if len(p["title"]) + len(short) + 3 > 62 else f"{p['title']} | {short}"
+    schema = [ORG, {"@type": "WebPage", "name": p["h1"], "description": p["meta"], "url": SITE + path, "provider": ORG_REF}, faq_schema(p["faq"]), crumbs_schema(crumbs)]
+    write(path, title, p["meta"], inner(path, crumbs, p["h1"], links(p["lede"], d), body, aside), schema, "Pump type", p["query"])
 
 path = "products/"; crumbs = HOME_C + [("Products", path)]
 body = rows([(CATS[c][1], f"products/{CATS[c][0]}/", CAT_COPY[c][1]) for c in CATS] + [("All manufacturers", "manufacturers/", "The full line card, A to Z, with the states where we supply each.")], 1)
@@ -460,7 +489,7 @@ for t in TERR:
         if c == "pumps":
             have = {x["slug"] for x in ms}
             body += "\n" + table((f"Pump types available in {tname}", ["Pump type", "Manufacturers"],
-                                  [[pt, ", ".join(f"[[manufacturers/{s}/|{B[s]['name']}]]" for s in sl if s in have)] for pt, sl in PUMP_TYPES if any(s in have for s in sl)]), d)
+                                  [[pt_link(pt), ", ".join(f"[[manufacturers/{s}/|{B[s]['name']}]]" for s in sl if s in have)] for pt, sl in PUMP_TYPES if any(s in have for s in sl)]), d)
         others = [x["name"] for x in B.values() if x["cat"] == c and t not in x["terr"]]
         if others:
             body += f"\n<h2>Not on the {tname} line card</h2>\n<p>{', '.join(others)}: supplied by Southern Design in other territories, not this one. If one of these is on your nameplate, ask and we will point you to the right product.</p>"
@@ -565,7 +594,7 @@ write(path, "Request received | Southern Design", "Your request has been sent to
 INDEX = build_index(B, GUIDES, SERVICES, INDUSTRIES, CATS, CAT_COPY, TERR, LOC, PUMP_TYPES, terr_tag, st_members, PHONE)
 path = "search/"; crumbs = HOME_C + [("Search", path)]
 body = search_form("page", 1) + '\n<div class="browse">'
-for head, kind in [("Pump problems", "Problem guide"), ("Manufacturers", "Manufacturer"), ("Products", "Product"), ("Services", "Service"), ("Industries", "Industry"), ("Locations", "Location")]:
+for head, kind in [("Pump problems", "Problem guide"), ("Manufacturers", "Manufacturer"), ("Products", "Product"), ("Pump types", "Pump type"), ("Services", "Service"), ("Industries", "Industry"), ("Locations", "Location")]:
     body += f'\n<h2>{head}</h2>\n<ul class="chips">' + "".join(f'<li><a href="{href(1, e["u"])}">{esc(e["t"])}</a></li>' for e in INDEX if e["k"] == kind and e["browse"]) + "</ul>"
 body += "\n</div>"
 write(path, "Search Southern Design: Problems, Manufacturers, Products", "Search Southern Design by pump problem, manufacturer or product, or browse every guide, manufacturer, product, service, industry and location.",
