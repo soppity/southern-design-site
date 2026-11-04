@@ -656,7 +656,9 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
           <li>Lubrication training and audits</li>
         </ul>
       </div>
-      <form id="quote-form" novalidate>
+      <form id="quote-form" name="enquiry" method="POST" action="/contact/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="enquiry">
+        <p class="vh" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field field-wide">
           <label for="need">What do you need?</label>
           <select id="need" name="need">
@@ -701,7 +703,7 @@ fieldset { border: 0; padding: 0; margin: 0; grid-column: 1 / -1; }
           <button class="btn btn-signal" type="submit">Send request</button>
           <small>We reply within one working day. Sooner if equipment is down.</small>
         </div>
-        <p class="form-msg" id="form-msg" role="status" hidden>Concept only. Nothing was sent. On the live site this request would go to the specialist for the state you chose.</p>
+        <p class="form-msg" id="form-msg" role="alert" hidden>That did not send. Please try again, or call 877-917-8677 and we will take it by phone.</p>
       </form>
     </div>
   </section>
