@@ -103,7 +103,7 @@ The site sends data to the Google Analytics property "Southern Design website" (
 | `quote_cta_click` | Someone clicks a "Request a quote" style button | No |
 | `form_start` | Someone starts filling in the enquiry form | No |
 | `portal_click` | An existing customer clicks through to the portal | No |
-| `form_demo_submit` | The concept form is submitted (it sends nothing) | No |
+| `form_error` | The enquiry form could not be sent | No |
 | `search` | Someone searches the site and pauses, picks a result or presses Enter. Carries the search term | No |
 | `search_no_results` | A search finds nothing. Carries the search term | No |
 | `search_result_click` | Someone picks a search result. Carries the term and the result chosen | No |

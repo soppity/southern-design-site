@@ -63,7 +63,9 @@ if(false)go();else if(document.readyState==='complete')setTimeout(go,3000);else 
   <p class="lede">Six fields. It goes to the specialist for your state, not a general inbox. If equipment is down, call <a href="tel:+18779178677">877-917-8677</a>.</p>
   </div>
 </div></div>
-<div class="wrap page-body"><div class="contact-grid"><form id="quote-form" novalidate>
+<div class="wrap page-body"><div class="contact-grid"><form id="quote-form" name="enquiry" method="POST" action="/contact/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="enquiry">
+        <p class="vh" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field field-wide">
           <label for="need">What do you need?</label>
           <select id="need" name="need">
@@ -108,7 +110,7 @@ if(false)go();else if(document.readyState==='complete')setTimeout(go,3000);else 
           <button class="btn btn-signal" type="submit">Send request</button>
           <small>We reply within one working day. Sooner if equipment is down.</small>
         </div>
-        <p class="form-msg" id="form-msg" role="status" hidden>Concept only. Nothing was sent. On the live site this request would go to the specialist for the state you chose.</p>
+        <p class="form-msg" id="form-msg" role="alert" hidden>That did not send. Please try again, or call 877-917-8677 and we will take it by phone.</p>
       </form>
 <div class="offices">
 <h2>Arkansas</h2><address>Corporate office<br>2710 North West Avenue<br>El Dorado, AR 71730<br><a href="tel:+18707252588">(870) 725-2588</a></address>
@@ -133,6 +135,6 @@ if(false)go();else if(document.readyState==='complete')setTimeout(go,3000);else 
   <div class="foot-base">Concept redesign prepared by Lucid for discussion. Company details taken from the public Southern Design website. Photos are free-licence stock from Unsplash, standing in until Southern Design supplies its own.</div>
 </div></footer>
 <div class="actionbar"><a class="btn btn-ghost" href="tel:+18779178677">Call</a><a class="btn btn-signal" href="../contact/index.html">Request a quote</a></div>
-<script src="../assets/site.js?v=df9b57cd" defer></script>
+<script src="../assets/site.js?v=027e3f84" defer></script>
 </body>
 </html>

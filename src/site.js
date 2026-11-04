@@ -319,12 +319,23 @@
     form.addEventListener('focusin', function () {
       if (!started) { started = true; track('form_start', { form_name: 'enquiry' }); }
     });
-    // Concept build: the form does not send anywhere yet, so a submit here is not counted as a lead.
-    // The live form redirects to contact/thanks/, and that page records the lead.
+    // The form is a Netlify form. Without JavaScript the browser posts it and lands on contact/thanks/.
+    // With JavaScript it is posted in the background so the thank-you address can carry the need and state;
+    // that page records the lead, once, when it loads.
+    var pageField = document.createElement('input');
+    pageField.type = 'hidden'; pageField.name = 'page'; pageField.value = location.pathname;
+    form.appendChild(pageField);
     form.addEventListener('submit', function (e) {
+      if (!form.checkValidity()) return;  // let the browser show what is missing
       e.preventDefault();
-      if (msg) msg.hidden = false;
-      track('form_demo_submit', { form_name: 'enquiry', need: need ? need.value : '' });
+      var btn = form.querySelector('button[type=submit]'), label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending\u2026';
+      if (msg) msg.hidden = true;
+      var done = '/contact/thanks/?need=' + encodeURIComponent(need ? need.value : '') + '&state=' + encodeURIComponent((form.elements.state || {}).value || '');
+      var body = new URLSearchParams(new FormData(form)).toString();
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); location.href = done; })
+        ['catch'](function () { btn.disabled = false; btn.textContent = label; if (msg) msg.hidden = false; track('form_error', { form_name: 'enquiry' }); });
     });
   }
 
