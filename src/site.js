@@ -86,7 +86,7 @@
     var index = null, pending = null;
     var STOP = { a: 1, an: 1, the: 1, my: 1, our: 1, is: 1, are: 1, of: 1, 'for': 1, to: 1, 'in': 1, on: 1, and: 1, or: 1, i: 1, it: 1, 'do': 1, does: 1,
                  why: 1, how: 1, what: 1, 'with': 1, need: 1, have: 1, has: 1, we: 1, me: 1, near: 1, keeps: 1, keep: 1 };
-    var KIND = { 'Product': 1.15, 'Problem guide': 1.1, 'Manufacturer': 1.1, 'Service': 1.05, 'Call': 1.25, 'Page': 0.9 };  // anything else counts as 1
+    var KIND = { 'Product': 1.15, 'Problem guide': 1.1, 'Manufacturer': 1.1, 'Pump type': 1.1, 'Service': 1.05, 'Call': 1.25, 'Page': 0.9 };  // anything else counts as 1
 
     function norm(s) { return (s || '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim(); }
     // "seals" and "seal", "leaking" and "leak" count as the same word

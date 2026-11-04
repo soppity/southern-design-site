@@ -6,7 +6,7 @@ A redesign concept for [southerndesign.com](https://www.southerndesign.com/), pr
 
 | Path | What it is |
 |---|---|
-| `site/` | The built site: 90 static HTML pages plus a thank-you page, ready to host. Open `site/index.html` to browse it locally. |
+| `site/` | The built site: 100 static HTML pages plus a thank-you page, ready to host. Open `site/index.html` to browse it locally. |
 | `site/seo-page-map.csv` | Every page with its target search, title and description. |
 | `site/sitemap.xml`, `site/robots.txt`, `site/_redirects`, `site/_headers` | Sitemap, crawler rules, redirects from the five old Wix addresses, and the preview's do-not-index header. |
 | `src/` | The generator that builds `site/`. |
@@ -23,6 +23,8 @@ Edit the content, then rebuild. Do not edit files in `site/` by hand; the next b
 | Service and industry pages | `src/content2.py` |
 | Header photos on inner pages | `src/photos.py` |
 | Words the search box matches (symptoms, other spellings of a brand) | `src/search.py` |
+| Pump-type pages (one per pump type, chosen from keyword research) | `src/pumptypes.py` |
+| Keyword research behind the page titles and new pages | `baseline/2026-11-04/openseo-keywords.md` |
 | Manufacturer logos (one file per manufacturer, named by its page slug) | `src/logos/` |
 | Home page layout, base styles and the colour palette (the `:root` block) | `src/home-template.html` |
 | Inner-page styles | `src/extra.css` |
@@ -63,7 +65,7 @@ They are generated from `src/brands.py`, so changing which territories a manufac
 
 Every page has a search box: a magnifier in the header, and a box in the home page header area. A visitor types a symptom ("seal leaking"), a manufacturer ("Ebara") or a product ("gear pump") and gets the matching pages as they type. It tolerates a typo, plurals, and words typed in any order.
 
-- **What it searches.** A small index built with the site (`site/assets/search.json`, under 100 entries): the nine guides, 32 manufacturers, product types, services, industries and every location page. It is written by `src/search.py` from the same content as the pages, so it never goes out of date.
+- **What it searches.** A small index built with the site (`site/assets/search.json`, under 100 entries): the ten guides, 32 manufacturers, nine pump-type pages, services, industries and every location page. It is written by `src/search.py` from the same content as the pages, so it never goes out of date.
 - **Words buyers use.** `SAID_AS` in `src/search.py` lists words people type that a page may not use: symptoms ("noisy", "banging"), abbreviations ("AODD", "VFD"), and other spellings of a brand ("claval", "FTI"). Add a word only where the page really answers it.
 - **Nothing found.** The box offers to send the search to Southern Design: the link opens the enquiry form with the search already in the make, model or part number field. Every result list ends with the same offer. Part numbers and models the site has no page for become enquiries this way.
 - **Breakdowns.** Searches such as "pump down" or "emergency" show the phone number first.
