@@ -1,3 +1,16 @@
-# Preview build: not for indexing. Rebuild with --live for launch.
+# Southern Design: open to search engines and AI search crawlers
 User-agent: *
-Disallow: /
+Allow: /
+
+# AI search and assistant crawlers (named so the intent is explicit)
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: bingbot
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://www.southerndesign.com/sitemap.xml
