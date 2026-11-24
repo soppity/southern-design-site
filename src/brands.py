@@ -57,7 +57,7 @@ BRANDS = [
   ["Motor power monitors", "Trips on underload (dry running) and overload"], [A, M, V], ["mag-drive-pump-failure", "pump-running-off-curve", "mechanical-seal-keeps-failing"]),
  ("lube-it", "Lube-It", "reliability", "lubrication management software", "Software that organizes machine lubrication data for precision lubrication practice.",
   ["Lubrication routes and schedules", "Lubricant and machine records"], [A, M, V], ["pump-bearing-failure"]),
- ("mri", "SDM MRI", "reliability", "condition monitoring", "Real-time condition monitoring that detects off-design operation and predicts equipment failure.",
+ ("sdm-mri", "SDM MRI", "reliability", "condition monitoring", "Real-time condition monitoring that detects off-design operation and predicts equipment failure.",
   ["Real-time condition monitoring", "Alerts on off-design operation"], [A, M, V], ["pump-running-off-curve", "calculate-pump-mtbf"]),
  ("safematic", "Safematic", "reliability", "seal water control", "Seal water control and monitoring devices.",
   ["Seal water flow control", "Seal water monitoring"], [A, M, V], ["mechanical-seal-keeps-failing"]),
