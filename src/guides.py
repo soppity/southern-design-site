@@ -47,7 +47,7 @@ dict(
   ("Can a failed mechanical seal be repaired?", "Often, yes. Faces can be relapped or replaced and elastomers renewed, and an exchange program keeps a ready seal on the shelf while the failed one is rebuilt."),
  ],
  services=["mechanical-seal-repair", "pump-repair", "reliability-management"],
- brands=["john-crane", "ppc", "us-seal", "flex-a-seal", "safematic", "load-controls"],
+ brands=["john-crane", "ppc", "us-seal", "safematic", "load-controls"],
 ),
 dict(
  slug="pump-cavitation",

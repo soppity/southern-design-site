@@ -28,6 +28,7 @@ PHOTO = {
     "industries/pharmaceutical/": ("1621954938124-02e637ba3584", "Stainless steel equipment in a clean production hall"),
     "industries/steel/": ("1624027492684-327af1fb7559", "Interior of a steel mill"),
     "industries/bio-energy/": ("1673208769691-e74104d853fd", "Aerial view of digester tanks at a biogas plant"),
+    "industries/food-beverage/": ("1621954938124-02e637ba3584", "Stainless steel tanks and pipework in a food and beverage plant"),
     # locations
     "locations/arkansas/": ("1605027628030-9bb6f83535e6", "Sunset over wooded hills"),
     "locations/maryland-dc-delaware/": ("1611316491868-a683302aa917", "Baltimore Inner Harbor skyline at dusk"),
