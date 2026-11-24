@@ -47,7 +47,7 @@ dict(
   ("Can a failed mechanical seal be repaired?", "Often, yes. Faces can be relapped or replaced and elastomers renewed, and an exchange program keeps a ready seal on the shelf while the failed one is rebuilt."),
  ],
  services=["mechanical-seal-repair", "pump-repair", "reliability-management"],
- brands=["john-crane", "ppc", "us-seal", "flex-a-seal", "safematic", "load-controls"],
+ brands=["john-crane", "ppc", "us-seal", "safematic", "load-controls"],
 ),
 dict(
  slug="pump-cavitation",
@@ -85,7 +85,7 @@ dict(
   ("How much NPSH margin do I need?", "There is no universal number. It depends on the pump type and how critical the service is. Common rules of thumb are a few feet above NPSHr, or a ratio of NPSHa to NPSHr comfortably above 1.1, with more margin for high-energy pumps. The Hydraulic Institute publishes guidance."),
  ],
  services=["hydraulic-system-analysis", "field-service", "pump-repair"],
- brands=["flexicraft", "load-controls", "mri"],
+ brands=["flexicraft", "load-controls", "sdm-mri"],
 ),
 dict(
  slug="npsh-calculation",
@@ -171,7 +171,7 @@ dict(
   ("How do I convert pressure to head?", "Feet of head equals pressure in psi multiplied by 2.31 and divided by the liquid's specific gravity. For water, 10 psi is about 23 feet."),
  ],
  services=["hydraulic-system-analysis", "reliability-management", "field-service"],
- brands=["load-controls", "toshiba", "mri"],
+ brands=["load-controls", "toshiba", "sdm-mri"],
 ),
 dict(
  slug="pump-bearing-failure",
@@ -254,7 +254,7 @@ dict(
   ("What is the difference between MTBF and MTTR?", "MTBF measures how often equipment fails. MTTR, mean time to repair, measures how long it takes to get it running again. Reliability work raises the first; maintenance planning lowers the second."),
  ],
  services=["reliability-management", "pump-repair"],
- brands=["mri"],
+ brands=["sdm-mri"],
 ),
 dict(
  slug="water-hammer-pulsation",
@@ -431,6 +431,6 @@ dict(
   ("How long before a reliability program shows results?", "The bad actor list is usually clear once a year of failure records is in one place. Results follow as each cause is fixed, so the timing depends on how quickly the changes are made."),
  ],
  services=["reliability-management", "pump-repair", "lubrication-training-audits"],
- brands=["load-controls", "mri", "trico", "isomag"],
+ brands=["load-controls", "sdm-mri", "trico", "isomag"],
 ),
 ]

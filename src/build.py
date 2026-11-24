@@ -330,7 +330,7 @@ for b in B.values():
 path = "manufacturers/"; crumbs = HOME_C + [("Products", "products/"), ("Manufacturers", path)]
 allb = sorted(B.values(), key=lambda x: x["name"].lower())
 write(path, "Manufacturers We Represent: Pumps, Seals, Valves", "Every manufacturer on Southern Design's line card, from American Marsh to U.S. Seal, with what each makes and the states where we supply it.",
-      inner(path, crumbs, "Every manufacturer we represent", "32 manufacturers across three territories. Find the name on your nameplate.", rows([(b["name"], f"manufacturers/{b['slug']}/", f"{b['line']} <em>{terr_tag(b['terr'])}</em>") for b in allb], 1), ""),
+      inner(path, crumbs, "Every manufacturer we represent", "33 manufacturers across three territories. Find the name on your nameplate.", rows([(b["name"], f"manufacturers/{b['slug']}/", f"{b['line']} <em>{terr_tag(b['terr'])}</em>") for b in allb], 1), ""),
       [ORG, crumbs_schema(crumbs)], "Hub", "pump manufacturers represented")
 
 # ---------- product categories
@@ -382,8 +382,8 @@ for p in PUMP_PAGES:
 
 path = "products/"; crumbs = HOME_C + [("Products", path)]
 body = rows([(CATS[c][1], f"products/{CATS[c][0]}/", CAT_COPY[c][1]) for c in CATS] + [("All manufacturers", "manufacturers/", "The full line card, A to Z, with the states where we supply each.")], 1)
-write(path, "Pumps, Mechanical Seals, Valves, Motors and Accessories", "Pumps, mechanical seals, valves, motors and reliability accessories from 32 manufacturers, supplied and supported across Arkansas and the Mid-Atlantic.",
-      inner(path, crumbs, "Products from 32 manufacturers, supported after the sale", "Pick a category, or go straight to the manufacturer on your nameplate.", body, ""), [ORG, crumbs_schema(crumbs)], "Hub", "pumps seals valves supplier")
+write(path, "Pumps, Mechanical Seals, Valves, Motors and Accessories", "Pumps, mechanical seals, valves, motors and reliability accessories from 33 manufacturers, supplied and supported across Arkansas and the Mid-Atlantic.",
+      inner(path, crumbs, "Products from 33 manufacturers, supported after the sale", "Pick a category, or go straight to the manufacturer on your nameplate.", body, ""), [ORG, crumbs_schema(crumbs)], "Hub", "pumps seals valves supplier")
 
 # ---------- industries
 for i in INDUSTRIES:
@@ -605,7 +605,7 @@ m = home_main
 def rep(old, new, count=1):
     global m
     assert m.count(old) == count, (m.count(old), old[:60]); m = m.replace(old, new)
-rep("28 manufacturers on the line card", "32 manufacturers represented")
+rep("28 manufacturers on the line card", "33 manufacturers represented")
 rep('<div class="hero-cta">', search_form("hero", 0) + '\n      <div class="hero-cta">')
 a = m.index('<div class="tabs" role="tablist"'); b = m.index("</p>", m.index('<p class="linecard-note">')) + 4
 def lc(ms): return "".join(f'<li><b><a href="manufacturers/{x["slug"]}/index.html">{x["name"]}</a></b><small>{x["line"]} <em>{terr_tag(x["terr"])}</em></small></li>' for x in ms)

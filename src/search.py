@@ -24,7 +24,7 @@ SAID_AS = {
  # services
  "pump-repair": "rebuild overhaul fix broken failed repair shop rotating equipment rcfa root cause failure analysis",
  "mechanical-seal-repair": "seal rebuild seal exchange reconditioned",
- "field-service": "installation install technician on site onsite turnkey per diem maintenance outage troubleshooting",
+ "field-service": "installation install technician on site onsite turnkey maintenance outage planned troubleshooting",
  "hydraulic-system-analysis": "system curve simulation model sizing design engineering piping",
  "reliability-management": "rms reliability management system mtbf failure tracking root cause contract",
  "lubrication-training-audits": "icml mlt mla oil analysis lubrication course certification audit",
@@ -40,7 +40,6 @@ SAID_AS = {
  "john-crane": "johncrane crane",
  "us-seal": "us seal usseal u s seal",
  "cla-val": "claval cla val",
- "flex-a-seal": "flexaseal flex a seal",
  "lube-it": "lubeit lube it",
  "load-controls": "loadcontrols",
  "basetek": "base tek",
