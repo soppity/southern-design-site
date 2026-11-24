@@ -120,7 +120,7 @@ def search_form(place, depth):
 def header(depth, here=""):
     nav = "".join(f'<a href="{href(depth, p)}"{" aria-current=\"page\"" if here.startswith(p) else ""}>{n}</a>' for n, p in NAV)
     return f'''<a class="skip" href="#main">Skip to content</a>
-<div class="ribbon">Concept redesign prepared by Lucid. This is not the live Southern Design website.</div>
+{'' if LIVE else '<div class="ribbon">Concept redesign prepared by Lucid. This is not the live Southern Design website.</div>'}
 <div class="utility"><div class="wrap">
   <span>Pump down? Call <a href="tel:{TEL}"><strong>{PHONE}</strong></a></span>
   <a class="portal" href="http://rms.mysoutherndesign.com/client">Customer portal sign in</a>
@@ -153,7 +153,7 @@ def footer(depth):
     {col("Pump problems", [(g["nav"], "problems/" + g["slug"] + "/") for g in GUIDES[:6]] + [("All guides", "problems/")])}
     {col("Company", [("About", "about/"), ("Industries", "industries/")] + [(TERR[t][1], "locations/" + TERR[t][0] + "/") for t in TERR] + [("Contact", "contact/")])}
   </div>
-  <div class="foot-base">Concept redesign prepared by Lucid for discussion. Company details taken from the public Southern Design website. Photos are free-licence stock from Unsplash, standing in until Southern Design supplies its own.</div>
+  <div class="foot-base">{'&copy; ' + DATE[:4] + ' Southern Design and Mechanical, Inc. All rights reserved.' if LIVE else 'Concept redesign prepared by Lucid for discussion. Company details taken from the public Southern Design website. Photos are free-licence stock from Unsplash, standing in until Southern Design supplies its own.'}</div>
 </div></footer>
 <div class="actionbar"><a class="btn btn-ghost" href="tel:{TEL}">Call</a><a class="btn btn-signal" href="{h("contact/")}">Request a quote</a></div>
 <script src="{pre(depth)}assets/site.js?v={V_JS}" defer></script>'''
